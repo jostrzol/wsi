@@ -2,4 +2,14 @@
 __pycache__
 .benchmarks
 .pytest_cache
-plots
+plots/f/performance/*
+plots/f/steps/*
+plots/g/performance/*
+plots/g/steps/*
+!plots/f/steps/x=(-10,-30),a=0.1.svg
+!plots/f/steps/x=(-10,-30),a=0.1.svg
+!plots/g/steps/x=-1.7,a=0.1.svg
+!plots/f/performance/x=(-10,-30).svg
+!plots/f/performance/a=0.8.svg
+!plots/g/performance/x=1.8.svg
+!plots/g/performance/a=1.2.svg
