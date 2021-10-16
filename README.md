@@ -29,27 +29,27 @@ Aby poddać wyniki analizie, należy wykonać skrypt `plots.py` i postępować z
 
 Oto przykładowe wyniki:
 
-* Kroki dla funkcji $f$  
+* Kroki dla funkcji $`f`$  
 
 ![wykres](plots/f/steps/x=(-10,-30),a=0.1.svg)
-* Kroki dla funkcji $g$  
+* Kroki dla funkcji $`g`$  
 
 ![wykres](plots/g/steps/x=-1.7,a=0.1.svg)
-* Wydajność dla funkcji $f$ w zależności od początkowego współczynnika uczenia się  
+* Wydajność dla funkcji $`f`$ w zależności od początkowego współczynnika uczenia się  
 
 ![wykres](plots/f/performance/x=(-10,-30).svg)
-* Wydajność dla funkcji $f$ w zależności od punktu początkowego  
+* Wydajność dla funkcji $`f`$ w zależności od punktu początkowego  
 
 ![wykres](plots/f/performance/a=0.8.svg)
-* Wydajność dla funkcji $g$ w zależności od początkowego współczynnika uczenia się  
+* Wydajność dla funkcji $`g`$ w zależności od początkowego współczynnika uczenia się  
 
 ![wykres](plots/g/performance/x=1.8.svg)
-* Wydajność dla funkcji $g$ w zależności od punktu początkowego  
+* Wydajność dla funkcji $`g`$ w zależności od punktu początkowego  
 
 ![wykres](plots/g/performance/a=1.2.svg)
 
 ## Wnioski
-Z wykresów widać, że większy wpływ na wydajność algorytmu ma dobranie odpowiedniego początkowego współczynnika uczenia się, przy czym dla funkcji $f$ zależność ta wygląda odwrotnie niż dla funkcji $g$.  
-* Funkcji $f$ raczej pomaga większy współczynnik uczenia się, a funkcji $g$ przeszkadza. Może to być spowodowane tym, że dla $f$ algorytm zawsze ma jasno określony kierunek - jest tylko jedno minimum, za to dla funkcji $g$ skok o zbyt dużą wartość będzie oznaczał znalezienie się w pobliżu innego lokalnego minimum, co tylko niepotrzebnie zwiększa liczbę iteracji algorytmu, a nie zbliża do otrzymania wyniku.  
-Co ciekawe, dla funkcji $f$ możemy zobaczyć, że dla początkowego współczynnika uczenia się równego $\alpha=0.5$, minimum zostaje znalezione w jednej iteracji dla każdego punktu początkowego (oprócz $(0,0)$). Wynika to z faktu, że gradient tej funkcji wynosi $\begin{bmatrix} 2x_1 \\ 2x_2 \end{bmatrix}$, co oznacza, że po przemnożeniu go przez 0,5 i odjęciu od downolnego $(x_1, x_2)$ otrzymamy $(0, 0)$, co jest minimem funkcji. Podobny efekt widać dla $\alpha=1$, bo algorytm dzieli współczynnik uczenia się na pół w momencie, gdy wartość funkcji w następnym kroku byłaby nie mniejsza niż obecna wartość.  
-* Dla $f$ oddalanie się od $(0,0)$ nieznacznie wydłuża działanie algorytmu, a dla $g$ punkt początkowy praktycznie nie ma znaczenia. Wynika to z faktu, że lokalne minima $g$ występują okresowo, co 1 jednostkę.
+Z wykresów widać, że większy wpływ na wydajność algorytmu ma dobranie odpowiedniego początkowego współczynnika uczenia się, przy czym dla funkcji $`f`$ zależność ta wygląda odwrotnie niż dla funkcji $`g`$.  
+* Funkcji $`f`$ raczej pomaga większy współczynnik uczenia się, a funkcji $`g`$ przeszkadza. Może to być spowodowane tym, że dla $`f`$ algorytm zawsze ma jasno określony kierunek - jest tylko jedno minimum, za to dla funkcji $`g`$ skok o zbyt dużą wartość będzie oznaczał znalezienie się w pobliżu innego lokalnego minimum, co tylko niepotrzebnie zwiększa liczbę iteracji algorytmu, a nie zbliża do otrzymania wyniku.  
+Co ciekawe, dla funkcji $`f`$ możemy zobaczyć, że dla początkowego współczynnika uczenia się równego $`\alpha=0.5`$, minimum zostaje znalezione w jednej iteracji dla każdego punktu początkowego (oprócz $`(0,0)`$). Wynika to z faktu, że gradient tej funkcji wynosi $`\begin{bmatrix} 2x_1 \\ 2x_2 \end{bmatrix}`$, co oznacza, że po przemnożeniu go przez 0,5 i odjęciu od downolnego $`(x_1, x_2)`$ otrzymamy $`(0, 0)`$, co jest minimem funkcji. Podobny efekt widać dla $`\alpha=1`$, bo algorytm dzieli współczynnik uczenia się na pół w momencie, gdy wartość funkcji w następnym kroku byłaby nie mniejsza niż obecna wartość.  
+* Dla $`f`$ oddalanie się od $`(0,0)`$ nieznacznie wydłuża działanie algorytmu, a dla $`g`$ punkt początkowy praktycznie nie ma znaczenia. Wynika to z faktu, że lokalne minima $`g`$ występują okresowo, co 1 jednostkę.
