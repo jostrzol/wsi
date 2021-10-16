@@ -1,3 +1,5 @@
+<div style="padding: 2% 5%;">
+
 <h1 style="text-align: center;">
 <div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
 <div>WSI ćwiczenie 1 - algorytm gradientu prostego</div>
@@ -53,3 +55,4 @@ Z wykresów widać, że większy wpływ na wydajność algorytmu ma dobranie odp
 * Funkcji $`f`$ raczej pomaga większy współczynnik uczenia się, a funkcji $`g`$ przeszkadza. Może to być spowodowane tym, że dla $`f`$ algorytm zawsze ma jasno określony kierunek - jest tylko jedno minimum, za to dla funkcji $`g`$ skok o zbyt dużą wartość będzie oznaczał znalezienie się w pobliżu innego lokalnego minimum, co tylko niepotrzebnie zwiększa liczbę iteracji algorytmu, a nie zbliża do otrzymania wyniku.  
 Co ciekawe, dla funkcji $`f`$ możemy zobaczyć, że dla początkowego współczynnika uczenia się równego $`\alpha=0.5`$, minimum zostaje znalezione w jednej iteracji dla każdego punktu początkowego (oprócz $`(0,0)`$). Wynika to z faktu, że gradient tej funkcji wynosi $`\begin{bmatrix} 2x_1 \\ 2x_2 \end{bmatrix}`$, co oznacza, że po przemnożeniu go przez 0,5 i odjęciu od downolnego $`(x_1, x_2)`$ otrzymamy $`(0, 0)`$, co jest minimem funkcji. Podobny efekt widać dla $`\alpha=1`$, bo algorytm dzieli współczynnik uczenia się na pół w momencie, gdy wartość funkcji w następnym kroku byłaby nie mniejsza niż obecna wartość.  
 * Dla $`f`$ oddalanie się od $`(0,0)`$ nieznacznie wydłuża działanie algorytmu, a dla $`g`$ punkt początkowy praktycznie nie ma znaczenia. Wynika to z faktu, że lokalne minima $`g`$ występują okresowo, co 1 jednostkę.
+</div>

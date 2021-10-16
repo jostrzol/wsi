@@ -246,8 +246,8 @@ if __name__ == "__main__":
                     start_pnt, learn_coef, plot_benchmark)
                 dest_path: Path = args.plots / "f" / "steps"
                 dest_path.mkdir(parents=True, exist_ok=True)
-                plt.subplots_adjust(top=0.8)
-                plt.savefig(dest_path / filename, transparent=True)
+                plt.subplots_adjust(top=0.85)
+                plt.savefig(dest_path / filename)
                 plt.close()
 
         for learn_coef, learn_coef_b in benchmark["g"].items():
@@ -257,8 +257,8 @@ if __name__ == "__main__":
                     start_pnt, learn_coef, plot_benchmark)
                 dest_path: Path = args.plots / "g" / "steps"
                 dest_path.mkdir(parents=True, exist_ok=True)
-                plt.subplots_adjust(top=0.8)
-                plt.savefig(dest_path / filename, transparent=True)
+                plt.subplots_adjust(top=0.85)
+                plt.savefig(dest_path / filename)
                 plt.close()
 
     if args.c:
@@ -268,8 +268,8 @@ if __name__ == "__main__":
                 filename = label_performance_vs_learn_coef(start_pnt)
                 dest_path: Path = args.plots / f_name / "performance"
                 dest_path.mkdir(parents=True, exist_ok=True)
-                plt.subplots_adjust(top=0.8)
-                plt.savefig(dest_path / filename, transparent=True)
+                plt.subplots_adjust(top=0.85)
+                plt.savefig(dest_path / filename)
                 plt.close()
 
         for f_name, f_benchmark in benchmark.items():
@@ -278,6 +278,6 @@ if __name__ == "__main__":
                 filename = label_performance_vs_start_pnt(learn_coef)
                 dest_path: Path = args.plots / f_name / "performance"
                 dest_path.mkdir(parents=True, exist_ok=True)
-                plt.subplots_adjust(top=0.8)
-                plt.savefig(dest_path / filename, transparent=True)
+                plt.subplots_adjust(top=0.85)
+                plt.savefig(dest_path / filename)
                 plt.close()
