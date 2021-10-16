@@ -1,3 +1,5 @@
+# by Jakub Ostrzołek
+
 from argparse import ArgumentParser
 from typing import Callable, List, Optional, Tuple
 import numpy as np
@@ -79,7 +81,7 @@ def gradient_descend(
 
         # stop condition
         if (np.linalg.norm(pnt_grad) <= stop_condition and
-                np.linalg.norm(next_pnt-pnt) <= stop_condition):
+                np.linalg.norm(next_pnt - pnt) <= stop_condition):
             return Minimum(pnt, fnc(*pnt), steps_taken, iterations, True)
 
         iterations += 1
@@ -94,45 +96,57 @@ def f(x1: float, x2: float):
     return x1**2 + x2**2
 
 
-f_grad = (lambda x1: 2*x1,
-          lambda x2: 2*x2)
+f_grad = (lambda x1: 2 * x1,
+          lambda x2: 2 * x2)
 
 
 def g(x: float):
-    return x**2 - 10 * cos(2*pi*x) + 10
+    return x**2 - 10 * cos(2 * pi * x) + 10
 
 
-g_grad = (lambda x: 2*x + 20 * pi * sin(2*pi*x),)
+g_grad = (lambda x: 2 * x + 20 * pi * sin(2 * pi * x),)
+
+
+def pnt(string: str, n_coords: int = None):
+    result = tuple(float(word) for word in string.split(","))
+    if n_coords is not None and len(result) != n_coords:
+        raise ValueError(f"Expected {n_coords} coordinates in point, "
+                         f"not {len(result)}")
+    return result
+
+
+def format_pnt(pnt: Tuple[float, ...]):
+    return f'{", ".join([f"{x:.3f}" for x in pnt])}'
 
 
 def main():
-    parser = ArgumentParser("Gradient descend")
-    parser.add_argument(
-        "x1_s", metavar="f-starting-x1", type=float,
-        help="first coordinate of the starting point for function f")
-    parser.add_argument(
-        "x2_s", metavar="f-starting-x2", type=float,
-        help="second coordinate of the starting point for function f")
-    parser.add_argument("x_s", metavar="g-starting-x",
-                        type=float, help="starting point for function g")
+    parser = ArgumentParser()
     parser.add_argument(
         "learn_coef", metavar="learning-coefficient", type=float,
         help="initial learning coefficient for calculating the minimum")
     parser.add_argument(
         "stop_condition", metavar="stop-condition", type=float,
         help="stop condition for calculating when to stop")
+    parser.add_argument(
+        "-f", metavar="x1,x2", type=pnt, nargs="+",
+        help="starting points for function f in format x1,x2")
+    parser.add_argument(
+        "-g", metavar="x", type=pnt, nargs="+",
+        help="starting points for function g")
 
     args = parser.parse_args()
 
-    f_min = gradient_descend(f, f_grad, (args.x1_s, args.x2_s),
-                             args.learn_coef, args.stop_condition)
-    g_min = gradient_descend(g, g_grad, (args.x_s,),
-                             args.learn_coef, args.stop_condition)
+    print("Minima:")
+    for start_pnt in args.f:
+        f_min = gradient_descend(f, f_grad, start_pnt,
+                                 args.learn_coef, args.stop_condition)
+        print(f'\t{start_pnt}\t=>\tf({format_pnt(f_min.point)}) = {f_min.value:.3f}')
 
-    print(f"""Minima:
-    -f: f({", ".join([f"{x:.3f}" for x in f_min.point])}) = {f_min.value:.3f}
-    -g: g({", ".join([f"{x:.3f}" for x in g_min.point])}) = {g_min.value:.3f}
-    """)
+    for start_pnt in args.g:
+        g_min = gradient_descend(g, g_grad, start_pnt,
+                                 args.learn_coef, args.stop_condition)
+        print(
+            f'\t{start_pnt}\t\t=>\tg({format_pnt(g_min.point)}) = {g_min.value:.3f}')
 
 
 if __name__ == "__main__":
