@@ -83,7 +83,7 @@ def gradient_descend(
             return Minimum(pnt, fnc(*pnt), steps_taken, iterations, True)
 
         iterations += 1
-        if fnc(*next_pnt) > fnc(*pnt):
+        if fnc(*next_pnt) >= fnc(*pnt):
             learn_coef /= 2
         else:
             pnt = next_pnt
