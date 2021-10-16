@@ -1,73 +1,260 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css">
-<link rel="stylesheet" href="file:////home/ogurczak/.vscode/extensions/goessner.mdmath-2.7.4/themes/default/style.css">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css">
+    <link rel="stylesheet" href="file:////home/ogurczak/.vscode/extensions/goessner.mdmath-2.7.4/themes/default/style.css">
 
 </head>
-<body class="markdown-body">
-<h1 style="text-align: center;">
-<div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
-<div>WSI ćwiczenie 1 - algorytm gradientu prostego</div>
-</h1>
-<h2 id="opis-ćwiczenia-25">Opis ćwiczenia</h2>
-<p>Celem ćwiczenia było zaimplementowanie algorytmu wyznaczającego minimum lokalne funkcji za pomocą metody gradientu prostego (gradient descend).</p>
-<p>Funkcja implementująca algorytm przyjmuje następujące główne argumenty:</p>
-<ul>
-<li><code>fnc</code> - funkcja, której minimum ma znaleźć,</li>
-<li><code>grad</code> - gradient tej funkcji,</li>
-<li><code>start_pnt</code> - punkt początkowy,</li>
-<li><code>learn_coef</code> - początkowy współczynnik uczenia się.</li>
-</ul>
-<p>Funkcja zwraca obiekt klasy <code>Minimum</code>, który zawiera punkt i wartość minimum oraz pola do analizy wydajności algorytmu.</p>
-<h2 id="użycie">Użycie</h2>
-<p>Aby użyć algorytmu dla wybranych punktów startowych należy wykonać skrypt <code>main.py</code> i postępować zgodnie z instrukcjami.</p>
-<h2 id="testowanie-25">Testowanie</h2>
-<p>Do testowania użyta została bilbioteka <code>pytest</code> oraz <code>pytest-benchmark</code>.<br>
-Dla każdej funkcji wybieranych jest kilka początkowych punktów oraz wartości współczynnika uczenia się. Następnie algorytm jest wykonywany dla tych parametrów oraz generowany jest plik formatu JSON z wynikami. Widnieją tu m. in. po kroki wykonywane przez algorytm, liczba iteracji potrzebna na wykonanie się danego przykładu czy czas jaki zajęła praca funkcji. Dla każdego wykonania algorytmu sprawdzana jest długość wektora gradientu w zwróconym punkcie. Jeżeli jest ona bliska 0, to znaczy, że minimum zostało poprawnie odnalezione.</p>
-<h2 id="analiza-25">Analiza</h2>
-<p>Aby poddać wyniki analizie, należy wykonać skrypt <code>plots.py</code> i postępować zgodnie z instrukcjami. Za pomocą skryptu można wygenerować:</p>
-<ul>
-<li>wykresy funkcji z zaznaczonymi kolejnymi krokami algorytmu,</li>
-<li>wykresy porównujące wydajność algorytmu w zależności od zmieniającego się początkowego współczynnika uczenia się przy stałym punkcie początkowym,</li>
-<li>wykresy porównujące wydajność algorytmu w zależności od zmieniającego się początkowego punktu przy stałym początkowym współczynniku uczenia się.</li>
-</ul>
-<p>Oto przykładowe wyniki:</p>
-<ul>
-<li>Kroki dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq></li>
-</ul>
-<p><img src="plots/f/steps/x=(-10,-30),a=0.1.svg" alt="wykres"></p>
-<ul>
-<li>Kroki dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq></li>
-</ul>
-<p><img src="plots/g/steps/x=-1.7,a=0.1.svg" alt="wykres"></p>
-<ul>
-<li>Wydajność dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq> w zależności od początkowego współczynnika uczenia się</li>
-</ul>
-<p><img src="plots/f/performance/x=(-10,-30).svg" alt="wykres"></p>
-<ul>
-<li>Wydajność dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq> w zależności od punktu początkowego</li>
-</ul>
-<p><img src="plots/f/performance/a=0.8.svg" alt="wykres"></p>
-<ul>
-<li>Wydajność dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq> w zależności od początkowego współczynnika uczenia się</li>
-</ul>
-<p><img src="plots/g/performance/x=1.8.svg" alt="wykres"></p>
-<ul>
-<li>Wydajność dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq> w zależności od punktu początkowego</li>
-</ul>
-<p><img src="plots/g/performance/a=1.2.svg" alt="wykres"></p>
-<h2 id="wnioski-25">Wnioski</h2>
-<p>Z wykresów widać, że większy wpływ na wydajność algorytmu ma dobranie odpowiedniego początkowego współczynnika uczenia się, przy czym dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq> zależność ta wygląda odwrotnie niż dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq>.</p>
-<ul>
-<li>Funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq> raczej pomaga większy współczynnik uczenia się, a funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq> przeszkadza. Może to być spowodowane tym, że dla <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq> algorytm zawsze ma jasno określony kierunek - jest tylko jedno minimum, za to dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq> skok o zbyt dużą wartość będzie oznaczał znalezienie się w pobliżu innego lokalnego minimum, co tylko niepotrzebnie zwiększa liczbę iteracji algorytmu, a nie zbliża do otrzymania wyniku.<br>
-Co ciekawe, dla funkcji <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq> możemy zobaczyć, że dla początkowego współczynnika uczenia się równego <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\alpha=0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0.5</span></span></span></span></eq>, minimum zostaje znalezione w jednej iteracji dla każdego punktu początkowego (oprócz <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0,0)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">)</span></span></span></span></eq>). Wynika to z faktu, że gradient tej funkcji wynosi <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo fence="true">[</mo><mtable rowspacing="0.1600em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>2</mn><msub><mi>x</mi><mn>1</mn></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>2</mn><msub><mi>x</mi><mn>2</mn></msub></mrow></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><annotation encoding="application/x-tex">\begin{bmatrix} 2x_1 \\ 2x_2 \end{bmatrix}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"><span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span></span></span></span></eq>, co oznacza, że po przemnożeniu go przez 0,5 i odjęciu od downolnego <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x_1, x_2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></eq> otrzymamy <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0, 0)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">)</span></span></span></span></eq>, co jest minimem funkcji. Podobny efekt widać dla <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></eq>, bo algorytm dzieli współczynnik uczenia się na pół w momencie, gdy wartość funkcji w następnym kroku byłaby nie mniejsza niż obecna wartość.</li>
-<li>Dla <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></eq> oddalanie się od <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0,0)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">)</span></span></span></span></eq> nieznacznie wydłuża działanie algorytmu, a dla <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq> punkt początkowy praktycznie nie ma znaczenia. Wynika to z faktu, że lokalne minima <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></eq> występują okresowo, co 1 jednostkę.</li>
-</ul>
+
+<body class="markdown-body" style="padding: 2% 5%">
+    <h1 style="text-align: center;">
+        <div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
+        <div>WSI ćwiczenie 1 - algorytm gradientu prostego</div>
+    </h1>
+    <h2 id="opis-ćwiczenia-25">Opis ćwiczenia</h2>
+    <p>Celem ćwiczenia było zaimplementowanie algorytmu wyznaczającego minimum lokalne funkcji za pomocą metody gradientu prostego (gradient descend).</p>
+    <p>Funkcja implementująca algorytm przyjmuje następujące główne argumenty:</p>
+    <ul>
+        <li><code>fnc</code> - funkcja, której minimum ma znaleźć,</li>
+        <li><code>grad</code> - gradient tej funkcji,</li>
+        <li><code>start_pnt</code> - punkt początkowy,</li>
+        <li><code>learn_coef</code> - początkowy współczynnik uczenia się.</li>
+    </ul>
+    <p>Funkcja zwraca obiekt klasy <code>Minimum</code>, który zawiera punkt i wartość minimum oraz pola do analizy wydajności algorytmu.</p>
+    <h2 id="użycie">Użycie</h2>
+    <p>Aby użyć algorytmu dla wybranych punktów startowych należy wykonać skrypt <code>main.py</code> i postępować zgodnie z instrukcjami.</p>
+    <h2 id="testowanie-25">Testowanie</h2>
+    <p>Do testowania użyta została bilbioteka <code>pytest</code> oraz <code>pytest-benchmark</code>.<br> Dla każdej funkcji wybieranych jest kilka początkowych punktów oraz wartości współczynnika uczenia się. Następnie algorytm jest wykonywany dla tych
+        parametrów oraz generowany jest plik formatu JSON z wynikami. Widnieją tu m. in. po kroki wykonywane przez algorytm, liczba iteracji potrzebna na wykonanie się danego przykładu czy czas jaki zajęła praca funkcji. Dla każdego wykonania algorytmu
+        sprawdzana jest długość wektora gradientu w zwróconym punkcie. Jeżeli jest ona bliska 0, to znaczy, że minimum zostało poprawnie odnalezione.</p>
+    <h2 id="analiza-25">Analiza</h2>
+    <p>Aby poddać wyniki analizie, należy wykonać skrypt <code>plots.py</code> i postępować zgodnie z instrukcjami. Za pomocą skryptu można wygenerować:</p>
+    <ul>
+        <li>wykresy funkcji z zaznaczonymi kolejnymi krokami algorytmu,</li>
+        <li>wykresy porównujące wydajność algorytmu w zależności od zmieniającego się początkowego współczynnika uczenia się przy stałym punkcie początkowym,</li>
+        <li>wykresy porównujące wydajność algorytmu w zależności od zmieniającego się początkowego punktu przy stałym początkowym współczynniku uczenia się.</li>
+    </ul>
+    <p>Oto przykładowe wyniki:</p>
+    <ul>
+        <li>Kroki dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+                </span>
+                </span>
+                </span>
+            </eq>
+        </li>
+    </ul>
+    <p><img src="plots/f/steps/x=(-10,-30),a=0.1.svg" alt="wykres"></p>
+    <ul>
+        <li>Kroki dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+                </span>
+                </span>
+                </span>
+            </eq>
+        </li>
+    </ul>
+    <p><img src="plots/g/steps/x=-1.7,a=0.1.svg" alt="wykres"></p>
+    <ul>
+        <li>Wydajność dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+                </span>
+                </span>
+                </span>
+            </eq> w zależności od początkowego współczynnika uczenia się</li>
+    </ul>
+    <p><img src="plots/f/performance/x=(-10,-30).svg" alt="wykres"></p>
+    <ul>
+        <li>Wydajność dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+                </span>
+                </span>
+                </span>
+            </eq> w zależności od punktu początkowego</li>
+    </ul>
+    <p><img src="plots/f/performance/a=0.8.svg" alt="wykres"></p>
+    <ul>
+        <li>Wydajność dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+                </span>
+                </span>
+                </span>
+            </eq> w zależności od początkowego współczynnika uczenia się</li>
+    </ul>
+    <p><img src="plots/g/performance/x=1.8.svg" alt="wykres"></p>
+    <ul>
+        <li>Wydajność dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+                </span>
+                </span>
+                </span>
+            </eq> w zależności od punktu początkowego</li>
+    </ul>
+    <p><img src="plots/g/performance/a=1.2.svg" alt="wykres"></p>
+    <h2 id="wnioski-25">Wnioski</h2>
+    <p>Z wykresów widać, że większy wpływ na wydajność algorytmu ma dobranie odpowiedniego początkowego współczynnika uczenia się, przy czym dla funkcji
+        <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+            <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+            </span>
+            </span>
+            </span>
+        </eq> zależność ta wygląda odwrotnie niż dla funkcji
+        <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+            <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+            </span>
+            </span>
+            </span>
+        </eq>.</p>
+    <ul>
+        <li>Funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+                </span>
+                </span>
+                </span>
+            </eq> raczej pomaga większy współczynnik uczenia się, a funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+                </span>
+                </span>
+                </span>
+            </eq> przeszkadza. Może to być spowodowane tym, że dla
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+                </span>
+                </span>
+                </span>
+            </eq> algorytm zawsze ma jasno określony kierunek - jest tylko jedno minimum, za to dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+                </span>
+                </span>
+                </span>
+            </eq> skok o zbyt dużą wartość będzie oznaczał znalezienie się w pobliżu innego lokalnego minimum, co tylko niepotrzebnie zwiększa liczbę iteracji algorytmu, a nie zbliża do otrzymania wyniku.<br> Co ciekawe, dla funkcji
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+                </span>
+                </span>
+                </span>
+            </eq> możemy zobaczyć, że dla początkowego współczynnika uczenia się równego
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\alpha=0.5</annotation></semantics></math></span>
+                <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span>
+                <span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0.5</span></span>
+                </span>
+                </span>
+            </eq>, minimum zostaje znalezione w jednej iteracji dla każdego punktu początkowego (oprócz
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0,0)</annotation></semantics></math></span>
+                <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace"
+                    style="margin-right:0.16666666666666666em;"></span>
+                <span class="mord">0</span><span class="mclose">)</span></span>
+                </span>
+                </span>
+            </eq>). Wynika to z faktu, że gradient tej funkcji wynosi
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo fence="true">[</mo><mtable rowspacing="0.1600em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>2</mn><msub><mi>x</mi><mn>1</mn></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>2</mn><msub><mi>x</mi><mn>2</mn></msub></mrow></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><annotation encoding="application/x-tex">\begin{bmatrix} 2x_1 \\ 2x_2 \end{bmatrix}</annotation></semantics></math></span>
+                <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span>
+                <span
+                    class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span>
+                    <span class="mord"><span class="mord">2</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span>
+                    <span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span>
+                    </span>
+                    </span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span>
+                    </span>
+                    </span>
+                    </span>
+                    </span>
+                    </span>
+                    </span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span>
+                    <span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span>
+                    </span>
+                    </span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span>
+                    </span>
+                    </span>
+                    </span>
+                    </span>
+                    </span>
+                    </span>
+                    </span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"><span></span></span>
+                    </span>
+                    </span>
+                    </span>
+                    </span>
+                    </span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span>
+                    </span>
+                    </span>
+                    </span>
+                    </span>
+            </eq>, co oznacza, że po przemnożeniu go przez 0,5 i odjęciu od downolnego
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x_1, x_2)</annotation></semantics></math></span>
+                <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span>
+                <span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span>
+                </span>
+                </span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span>
+                </span>
+                </span>
+                </span>
+                </span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span>
+                <span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span>
+                </span>
+                </span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span>
+                </span>
+                </span>
+                </span>
+                </span><span class="mclose">)</span></span>
+                </span>
+                </span>
+            </eq> otrzymamy
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0, 0)</annotation></semantics></math></span>
+                <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace"
+                    style="margin-right:0.16666666666666666em;"></span>
+                <span class="mord">0</span><span class="mclose">)</span></span>
+                </span>
+                </span>
+            </eq>, co jest minimem funkcji. Podobny efekt widać dla
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math></span>
+                <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span>
+                <span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span>
+                </span>
+                </span>
+            </eq>, bo algorytm dzieli współczynnik uczenia się na pół w momencie, gdy wartość funkcji w następnym kroku byłaby nie mniejsza niż obecna wartość.</li>
+        <li>Dla
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.10764em;">f</span>
+                </span>
+                </span>
+                </span>
+            </eq> oddalanie się od
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0,0)</annotation></semantics></math></span>
+                <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace"
+                    style="margin-right:0.16666666666666666em;"></span>
+                <span class="mord">0</span><span class="mclose">)</span></span>
+                </span>
+                </span>
+            </eq> nieznacznie wydłuża działanie algorytmu, a dla
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+                </span>
+                </span>
+                </span>
+            </eq> punkt początkowy praktycznie nie ma znaczenia. Wynika to z faktu, że lokalne minima
+            <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span>
+                <span class="mord mathnormal" style="margin-right:0.03588em;">g</span>
+                </span>
+                </span>
+                </span>
+            </eq> występują okresowo, co 1 jednostkę.</li>
+    </ul>
 
 </body>
+
 </html>
