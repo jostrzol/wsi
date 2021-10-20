@@ -37,6 +37,7 @@ Oto przykładowe wyniki:
 * Kroki dla funkcji $`g`$  
 
 ![wykres](plots/g/steps/x=-1.7,a=0.1.svg)
+![wykres](plots/g/steps/x=-1.7,a=0.06.svg)
 * Wydajność dla funkcji $`f`$ w zależności od początkowego współczynnika uczenia się  
 
 ![wykres](plots/f/performance/x=(-10,-30).svg)
