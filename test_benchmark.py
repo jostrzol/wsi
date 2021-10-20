@@ -28,6 +28,6 @@ def test_benchmark(fnc, gradient, fnc_name, start_pnt, learn_coef, benchmark):
     benchmark.extra_info["iterations"] = min.iterations
     benchmark.extra_info["found"] = min.found
     benchmark.extra_info["random"] = False
-    assert min.found == True
+    assert min.found
     pnt_grad = [grad_x(x) for x, grad_x in zip(min.point, gradient)]
     assert np.linalg.norm(pnt_grad) <= STOP_CONDITION
