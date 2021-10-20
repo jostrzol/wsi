@@ -140,13 +140,14 @@ def main():
     for start_pnt in args.f:
         f_min = gradient_descend(f, f_grad, start_pnt,
                                  args.learn_coef, args.stop_condition)
-        print(f'\t{start_pnt}\t=>\tf({format_pnt(f_min.point)}) = {f_min.value:.3f}')
+        print(f'\t{start_pnt}\t= >\tf({format_pnt(f_min.point)}) '
+              f'={f_min.value: .3f}')
 
     for start_pnt in args.g:
         g_min = gradient_descend(g, g_grad, start_pnt,
                                  args.learn_coef, args.stop_condition)
-        print(
-            f'\t{start_pnt}\t\t=>\tg({format_pnt(g_min.point)}) = {g_min.value:.3f}')
+        print(f'\t{start_pnt}\t\t=>\tg({format_pnt(g_min.point)}) '
+              f'= {g_min.value:.3f}')
 
 
 if __name__ == "__main__":
