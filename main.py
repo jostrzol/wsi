@@ -4,13 +4,8 @@ from argparse import ArgumentParser
 from typing import Any, Callable, Dict, List, Tuple
 from math import sin
 from genetic import genetic_algorithm
-from random import randint, seed
-import sys
+from random import randint
 
-
-gettrace = getattr(sys, 'gettrace', None)
-if gettrace is not None and gettrace():
-    seed("test")
 
 COORD_MIN = -16
 COORD_MAX = 15
@@ -54,6 +49,10 @@ def f(x: Tuple[int, int, int, int]):
         (x3 - 1)**2 * (1+sin(sin(1.5 * x4))) + (x4-1)**2 * (1+sin(sin(x4)))
 
 
+def f_encoded(x: Bits, bits=5):
+    return f(point_decode(x, bits=bits))
+
+
 class Grey:
     _max_bits = 1
     _from_int_table: List[Bits] = [(False,), (True,)]
@@ -79,7 +78,7 @@ class Grey:
 
     @classmethod
     def to_int(cls, grey: Bits):
-        # gt rid of leading zeros
+        # get rid of leading zeros
         try:
             grey = grey[grey.index(1):]
         except ValueError:
@@ -106,6 +105,12 @@ def point_decode(encoded: Bits, bits=5) -> Point:
     return tuple(point)
 
 
+def generate_population(size=20, dimensions=4):
+    return [tuple(randint(COORD_MIN, COORD_MAX)
+                  for _ in range(dimensions))
+            for _ in range(size)]
+
+
 def main():
     parser = ArgumentParser()
     pop_group = parser.add_mutually_exclusive_group()
@@ -129,15 +134,19 @@ def main():
     args = parser.parse_args()
 
     if not args.population:
-        args.population = [tuple(randint(COORD_MIN, COORD_MAX)
-                                 for _ in range(4)) for _ in range(args.size)]
+        args.population = generate_population(args.size)
         print(f"Starting population: {args.population}")
+    else:
+        args.size = len(args.population)
 
     population = [point_encode(point) for point in args.population]
 
     best_fitness, best_solution = genetic_algorithm(
-        lambda x: f(point_decode(x)), population, args.mutation_prob,
-        args.crossover_prob, args.iterations)
+        fitness_fnc=f_encoded,
+        population=population,
+        mutation_prob=args.mutation_prob,
+        crossover_prob=args.crossover_prob,
+        max_iterations=args.iterations)
 
     print(f"Best solution: {point_decode(best_solution)}")
     print(f"Best fitness: {best_fitness}")

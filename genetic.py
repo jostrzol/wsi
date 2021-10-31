@@ -10,8 +10,10 @@ RatedSolution = Tuple[float, Solution]
 
 @dataclass
 class Generation:
-    population: List[RatedSolution]
-    best: RatedSolution
+    population: List[Solution]
+    fitness: List[float]
+    best: Solution
+    best_fitness: float
 
 
 def reproduct_tournment(
@@ -78,7 +80,7 @@ def genetic_algorithm(
     best = optimum(zip(fitness, population))
 
     for _ in range(max_iterations):
-        generations.append(Generation(population, best))
+        generations.append(Generation(population, fitness, best[1], best[0]))
 
         population = reproduct_tournment(population, fitness)
         population = mutate(population, mutation_prob)
