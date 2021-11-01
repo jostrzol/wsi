@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css">
+<link rel="stylesheet" href="file:////home/tuco/.vscode-server/extensions/goessner.mdmath-2.7.4/themes/default/style.css">
+
+</head>
+<body class="markdown-body">
+<div style="padding: 2% 5%;">
+<h1 style="text-align: center;">
+<div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
+<div>WSI ćwiczenie 2 - algorytm genetyczny</div>
+</h1>
+<h2 id="opis-c487wiczenia">Opis ćwiczenia</h2>
+<p>Celem ćwiczenia było zaimplementowanie algorytmu genetycznego Hollanda oraz użycie go w problemie poszukiwania minimum dla funkcji czterech zmiennych.</p>
+<p>Funkcja implementująca algorytm przyjmuje następujące główne argumenty:</p>
+<ul>
+<li><code>fitness_fnc</code> - funkcja oceny (musi przyjmować jako argument jednego osobnika - wektor wartości boolowskich)</li>
+<li><code>population</code> - populacja początkowych osobników</li>
+<li><code>iterations</code> - liczba iteracji, po której algorytm ma zakończyć działanie</li>
+<li><code>mutation_prob</code> - szansa, że dany gen w osobniku ulegnie mutacji</li>
+<li><code>crossover_prob</code> - szansa, że para osobników ulegnie krzyżowaniu</li>
+</ul>
+<p>Funkcja zwraca krotkę <code>(ocena, osobnik)</code>, która reprezentuje najlepsze rozwiązanie, lub, po ustawieniu argumentu <code>return_generations=True</code>, listę obiektów klasy <code>Generation</code>, reprezentujących stan populacji w kolejnych iteracjach przebiegu algorytmu.</p>
+<h2 id="wykorzystane-zewnc499trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
+<ul>
+<li><code>numpy</code></li>
+<li><code>matplotlib</code></li>
+<li><code>pytest</code></li>
+<li><code>pytest-benchmark</code></li>
+</ul>
+<h2 id="uc5bcycie">Użycie</h2>
+<p>Aby użyć algorytmu dla wybranych parametrów algorytmu należy uruchomić skrypt <code>main.py</code> i postępować zgodnie z instrukcjami (<code>main.py --help</code>).</p>
+<h2 id="ocena-parametrc3b3w-algorytmu">Ocena parametrów algorytmu</h2>
+<p><strong>Aby szybko dokonać oceny i wygenerować wykresy użyte w tej dokumentacji należy uruchomić skrypt bashowy <code>plots.sh</code></strong></p>
+<p>Do oceny parametrów algorytmu użyta została bilbioteka <code>pytest</code> oraz <code>pytest-benchmark</code>.<br>
+Ocenę należy uruchomić komendą <code>pytest --benchmark-json=&lt;ścieżka_do_pliku_z_oceną&gt;.json</code>. Można zmieniać oceniane zbiory parametrów zmieniając wartości stałych <code>SIZES</code>, <code>ITERATIONS</code>, <code>MUTATION_PROBS</code>, <code>CROSSOVER_PROBS</code>. Aby ograniczyć liczbę wykonywanych testów, zamiast oceniania każdej kombinacji parametrów algorytmu, są testowane kolejno parametry o wartościach pochodzących z wyżej wymienionych stałych, a reszta parametrów pochodzi ze stałej <code>STD_PARAMS</code>. Dodatkowo jest jeszcze stała <code>SEPARATE_PARAMS</code>, służąca do dodania osobnych zestawów parametrów.
+Można również regulować ilość powtórzeń stałą <code>REPEAT</code>.</p>
+<h2 id="analiza">Analiza</h2>
+<p>Aby poddać wyniki analizie, należy wykonać skrypt <code>analyze.py</code> i postępować zgodnie z instrukcjami (<code>analyze.py --help</code>). Za pomocą skryptu można wygenerować:</p>
+<ul>
+<li>wykresy zależności oceny rozwiązań populacji od numeru iteracji algorytmu (<code>plot_type=scatter</code>); większe punkty na wykresie oznaczają więcej osobników o dokładnie tej samej ocenie (ten typ wykresu staje się mało czytelny dla dużej liczby iteracji, powtórzeń i rozmiaru populacji),</li>
+<li>wykresy zależności średniej oceny rozwiązań populacji wraz z odchyleniem standardowym reprezentowanym poprzez słupek błędu od numeru iteracji algorytmu (<code>plot_type=mean-std</code>) (ten typ wykresu staje się mało czytelny dla dużej liczby iteracji),</li>
+<li>wykresy porównujące wydajność algorytmu w zależności od zmieniającego się jednego parametru algorytmu przy stałej reszcie (<code>plot_type=compare</code>).</li>
+</ul>
+<p>Oto przykładowe wyniki:</p>
+<ul>
+<li>Ocena kolejnych populacji:</li>
+</ul>
+<p><img src="plots/scatter/s=20,i=100,m=0.05,c=0.1.png" alt="wykres" class="loading" id="image-hash--1296119273" data-src="plots/scatter/s=20,i=100,m=0.05,c=0.1.png"></p>
+<ul>
+<li>Średnia ocena i odchylenie standardowe kolejnych populacji:</li>
+</ul>
+<p><img src="plots/mean-std/s=20,i=100,m=0.05,c=0.1.png" alt="wykres" class="loading" id="image-hash-1899917312" data-src="plots/mean-std/s=20,i=100,m=0.05,c=0.1.png"></p>
+<ul>
+<li>Porównanie wydajności algorytmu dla różnych warości rozmiaru populacji:</li>
+</ul>
+<p><img src="plots/compare/i=500,m=0.05,c=0.1.png" alt="wykres" class="loading" id="image-hash-77537814" data-src="plots/compare/i=500,m=0.05,c=0.1.png"></p>
+<ul>
+<li>Porównanie wydajności algorytmu dla różnych warości iteracji algorytmu:</li>
+</ul>
+<p><img src="plots/compare/s=20,m=0.05,c=0.1.png" alt="wykres" class="loading" id="image-hash-683258223" data-src="plots/compare/s=20,m=0.05,c=0.1.png"></p>
+<ul>
+<li>Porównanie wydajności algorytmu dla różnych warości szansy na mutację:</li>
+</ul>
+<p><img src="plots/compare/s=20,i=500,c=0.1.png" alt="wykres" class="loading" id="image-hash-1452159893" data-src="plots/compare/s=20,i=500,c=0.1.png"></p>
+<ul>
+<li>Porównanie wydajności algorytmu dla różnych warości szansy na krzyżowanie:</li>
+</ul>
+<p><img src="plots/compare/s=20,i=500,m=0.05.png" alt="wykres" class="loading" id="image-hash-78020205" data-src="plots/compare/s=20,i=500,m=0.05.png"></p>
+<h2 id="wnioski">Wnioski</h2>
+<p>Z wykresów porównujących można wywnioskować, że:</p>
+<ul>
+<li>zwiększanie zarówno liczby iteracji jak i rozmiaru populacji wpływa pozytywnie na rozwiązanie. Im większe są warości tych parametrów, tym mniej ich wzrost wpływa na zbliżenie do rozwiązania.</li>
+<li>zarówno za duża jak i za mała szansa na mutację wpływa negatywnie na rozwiązanie. Najlepsza wartość wydaje się być w pobliżu <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.03</mn></mrow><annotation encoding="application/x-tex">0.03</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span><span class="mord">3</span></span></span></span>.</li>
+<li>szansa na krzyżowanie nie wpływa znacząco na wynik algorytmu. Najlepsza wartość tego parametru mieści się w okolicach <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.5</mn></mrow><annotation encoding="application/x-tex">0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">5</span></span></span></span>.</li>
+</ul>
+<p>Stąd można wnioskować, że najlepsze parametry dla algorytmu mieszczą się w okolicach:</p>
+<ul>
+<li><code>size=40</code></li>
+<li><code>iterations=500</code></li>
+<li><code>mutation_prob=0.03</code></li>
+<li><code>crossover_prob=0.5</code></li>
+</ul>
+<p>Wykresy typu <code>scatter</code> i <code>mean-std</code> dla tak dobranych parametrów:</p>
+<p><img src="plots/scatter/s=40,i=500,m=0.03,c=0.5.png" alt="wykres" class="loading" id="image-hash-806729239" data-src="plots/scatter/s=40,i=500,m=0.03,c=0.5.png">
+<img src="plots/mean-std/s=40,i=500,m=0.03,c=0.5.png" alt="wykres" class="loading" id="image-hash--292201472" data-src="plots/mean-std/s=40,i=500,m=0.03,c=0.5.png"></p>
+<p>Dla porównania zbiór parametrów wybranych przeze mnie &quot;na wyczucie&quot; (użyty jako <code>STD_PARAMS</code> w <code>test_benchmark.py</code>):</p>
+<p><img src="plots/scatter/s=20,i=500,m=0.05,c=0.1.png" alt="wykres" class="loading" id="image-hash-1363551123" data-src="plots/scatter/s=20,i=500,m=0.05,c=0.1.png">
+<img src="plots/mean-std/s=20,i=500,m=0.05,c=0.1.png" alt="wykres" class="loading" id="image-hash-264620412" data-src="plots/mean-std/s=20,i=500,m=0.05,c=0.1.png"></p>
+<p>Jak widać, w przypadku parametrów dobranych eksperymentalnie, osobniki mają trochę mniejsze odchylenie standardowe, dzięki czemu są w stanie dokładniej znaleźć minimum (średnie rozwiązanie jest trochę mniejsze od średniego rozwiązania parametrów dobranych &quot;na wyczucie&quot;), jednak nie są to duże różnice. Z drugiej strony oznacza to, że nie są w stanie tak efektywnie eksplorować przestrzeni, więc w innym zastosowaniu mogłoby się okazać, że ten zestaw parametrów jest gorszy.</p>
+</div>
+</body>
+</html>

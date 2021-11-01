@@ -66,7 +66,7 @@ def genetic_algorithm(
         population: List[Solution],
         mutation_prob: float,
         crossover_prob: float,
-        max_iterations: int,
+        iterations: int,
         seek_max: bool = False,
         return_generations: bool = False
 ) -> Union[RatedSolution, List[Generation]]:
@@ -79,7 +79,7 @@ def genetic_algorithm(
     fitness = [fitness_fnc(solution) for solution in population]
     best = optimum(zip(fitness, population))
 
-    for _ in range(max_iterations):
+    for _ in range(iterations):
         generations.append(Generation(population, fitness, best[1], best[0]))
 
         population = reproduct_tournment(population, fitness)

@@ -2,3 +2,5 @@ __pycache__
 .vscode
 .benchmarks
 .pytest_cache
+benchmark.json
+test.ipynb

@@ -146,7 +146,7 @@ def main():
         population=population,
         mutation_prob=args.mutation_prob,
         crossover_prob=args.crossover_prob,
-        max_iterations=args.iterations)
+        iterations=args.iterations)
 
     print(f"Best solution: {point_decode(best_solution)}")
     print(f"Best fitness: {best_fitness}")
