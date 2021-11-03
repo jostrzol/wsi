@@ -15,7 +15,7 @@
 <div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
 <div>WSI ćwiczenie 2 - algorytm genetyczny</div>
 </h1>
-<h2 id="opis-c487wiczenia">Opis ćwiczenia</h2>
+<h2 id="opis-%C4%87wiczenia">Opis ćwiczenia</h2>
 <p>Celem ćwiczenia było zaimplementowanie algorytmu genetycznego Hollanda oraz użycie go w problemie poszukiwania minimum dla funkcji czterech zmiennych.</p>
 <p>Funkcja implementująca algorytm przyjmuje następujące główne argumenty:</p>
 <ul>
@@ -26,19 +26,20 @@
 <li><code>crossover_prob</code> - szansa, że para osobników ulegnie krzyżowaniu</li>
 </ul>
 <p>Funkcja zwraca krotkę <code>(ocena, osobnik)</code>, która reprezentuje najlepsze rozwiązanie, lub, po ustawieniu argumentu <code>return_generations=True</code>, listę obiektów klasy <code>Generation</code>, reprezentujących stan populacji w kolejnych iteracjach przebiegu algorytmu.</p>
-<h2 id="wykorzystane-zewnc499trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
+<h2 id="wykorzystane-zewn%C4%99trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
 <ul>
 <li><code>numpy</code></li>
 <li><code>matplotlib</code></li>
 <li><code>pytest</code></li>
 <li><code>pytest-benchmark</code></li>
 </ul>
-<h2 id="uc5bcycie">Użycie</h2>
+<h2 id="u%C5%BCycie">Użycie</h2>
 <p>Aby użyć algorytmu dla wybranych parametrów algorytmu należy uruchomić skrypt <code>main.py</code> i postępować zgodnie z instrukcjami (<code>main.py --help</code>).</p>
-<h2 id="ocena-parametrc3b3w-algorytmu">Ocena parametrów algorytmu</h2>
+<h2 id="testowanie">Testowanie</h2>
+<p>Przetestowana została jedynie część algorytmiczna ćwiczenia. Aby uruchomić testy należy wpisać komendę <code>pytest --benchmark-skip</code> lub <code>pytest test_genetic.py</code> (aby nie wykonywać czasochłonnej oceny).</p>
+<h2 id="ocena-parametr%C3%B3w-algorytmu">Ocena parametrów algorytmu</h2>
 <p><strong>Aby szybko dokonać oceny i wygenerować wykresy użyte w tej dokumentacji należy uruchomić skrypt bashowy <code>plots.sh</code></strong></p>
-<p>Do oceny parametrów algorytmu użyta została bilbioteka <code>pytest</code> oraz <code>pytest-benchmark</code>.<br>
-Ocenę należy uruchomić komendą <code>pytest --benchmark-json=&lt;ścieżka_do_pliku_z_oceną&gt;.json</code>. Można zmieniać oceniane zbiory parametrów zmieniając wartości stałych <code>SIZES</code>, <code>ITERATIONS</code>, <code>MUTATION_PROBS</code>, <code>CROSSOVER_PROBS</code>. Aby ograniczyć liczbę wykonywanych testów, zamiast oceniania każdej kombinacji parametrów algorytmu, są testowane kolejno parametry o wartościach pochodzących z wyżej wymienionych stałych, a reszta parametrów pochodzi ze stałej <code>STD_PARAMS</code>. Dodatkowo jest jeszcze stała <code>SEPARATE_PARAMS</code>, służąca do dodania osobnych zestawów parametrów.
+<p>Ocenę należy uruchomić komendą <code>pytest --benchmark-json=&lt;ścieżka_do_pliku_z_oceną&gt;.json</code>. Można zmieniać oceniane zbiory parametrów zmieniając wartości stałych <code>SIZES</code>, <code>ITERATIONS</code>, <code>MUTATION_PROBS</code>, <code>CROSSOVER_PROBS</code>. Aby ograniczyć liczbę wykonywanych testów, zamiast oceniania każdej kombinacji parametrów algorytmu, są testowane kolejno parametry o wartościach pochodzących z wyżej wymienionych stałych, a reszta parametrów pochodzi ze stałej <code>STD_PARAMS</code>. Dodatkowo jest jeszcze stała <code>SEPARATE_PARAMS</code>, służąca do dodania osobnych zestawów parametrów.
 Można również regulować ilość powtórzeń stałą <code>REPEAT</code>.</p>
 <h2 id="analiza">Analiza</h2>
 <p>Aby poddać wyniki analizie, należy wykonać skrypt <code>analyze.py</code> i postępować zgodnie z instrukcjami (<code>analyze.py --help</code>). Za pomocą skryptu można wygenerować:</p>
@@ -47,6 +48,7 @@ Można również regulować ilość powtórzeń stałą <code>REPEAT</code>.</p>
 <li>wykresy zależności średniej oceny rozwiązań populacji wraz z odchyleniem standardowym reprezentowanym poprzez słupek błędu od numeru iteracji algorytmu (<code>plot_type=mean-std</code>) (ten typ wykresu staje się mało czytelny dla dużej liczby iteracji),</li>
 <li>wykresy porównujące wydajność algorytmu w zależności od zmieniającego się jednego parametru algorytmu przy stałej reszcie (<code>plot_type=compare</code>).</li>
 </ul>
+<p>Typ wykresu <code>scatter</code> oraz <code>mean-std</code> biorą pod uwagę skumulowane populacje z wszystkich powtórzeń.</p>
 <p>Oto przykładowe wyniki:</p>
 <ul>
 <li>Ocena kolejnych populacji:</li>

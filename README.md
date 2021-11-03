@@ -26,10 +26,12 @@ Funkcja zwraca krotkę `(ocena, osobnik)`, która reprezentuje najlepsze rozwią
 ## Użycie
 Aby użyć algorytmu dla wybranych parametrów algorytmu należy uruchomić skrypt `main.py` i postępować zgodnie z instrukcjami (`main.py --help`).
 
+## Testowanie
+Przetestowana została jedynie część algorytmiczna ćwiczenia. Aby uruchomić testy należy wpisać komendę `pytest --benchmark-skip` lub `pytest test_genetic.py` (aby nie wykonywać czasochłonnej oceny).
+
 ## Ocena parametrów algorytmu
 **Aby szybko dokonać oceny i wygenerować wykresy użyte w tej dokumentacji należy uruchomić skrypt bashowy `plots.sh`**  
 
-Do oceny parametrów algorytmu użyta została bilbioteka `pytest` oraz `pytest-benchmark`.  
 Ocenę należy uruchomić komendą `pytest --benchmark-json=<ścieżka_do_pliku_z_oceną>.json`. Można zmieniać oceniane zbiory parametrów zmieniając wartości stałych `SIZES`, `ITERATIONS`, `MUTATION_PROBS`, `CROSSOVER_PROBS`. Aby ograniczyć liczbę wykonywanych testów, zamiast oceniania każdej kombinacji parametrów algorytmu, są testowane kolejno parametry o wartościach pochodzących z wyżej wymienionych stałych, a reszta parametrów pochodzi ze stałej `STD_PARAMS`. Dodatkowo jest jeszcze stała `SEPARATE_PARAMS`, służąca do dodania osobnych zestawów parametrów. 
 Można również regulować ilość powtórzeń stałą `REPEAT`.
  
@@ -38,6 +40,8 @@ Aby poddać wyniki analizie, należy wykonać skrypt `analyze.py` i postępować
 * wykresy zależności oceny rozwiązań populacji od numeru iteracji algorytmu (`plot_type=scatter`); większe punkty na wykresie oznaczają więcej osobników o dokładnie tej samej ocenie (ten typ wykresu staje się mało czytelny dla dużej liczby iteracji, powtórzeń i rozmiaru populacji),
 * wykresy zależności średniej oceny rozwiązań populacji wraz z odchyleniem standardowym reprezentowanym poprzez słupek błędu od numeru iteracji algorytmu (`plot_type=mean-std`) (ten typ wykresu staje się mało czytelny dla dużej liczby iteracji),
 * wykresy porównujące wydajność algorytmu w zależności od zmieniającego się jednego parametru algorytmu przy stałej reszcie (`plot_type=compare`).
+
+Typ wykresu `scatter` oraz `mean-std` biorą pod uwagę skumulowane populacje z wszystkich powtórzeń.  
 
 Oto przykładowe wyniki:
 
