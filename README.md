@@ -32,7 +32,7 @@ Przetestowana została jedynie część algorytmiczna ćwiczenia. Aby uruchomić
 ## Ocena parametrów algorytmu
 **Aby szybko dokonać oceny i wygenerować wykresy użyte w tej dokumentacji należy uruchomić skrypt bashowy `plots.sh`**  
 
-Ocenę należy uruchomić komendą `pytest --benchmark-json=<ścieżka_do_pliku_z_oceną>.json`. Można zmieniać oceniane zbiory parametrów zmieniając wartości stałych `SIZES`, `ITERATIONS`, `MUTATION_PROBS`, `CROSSOVER_PROBS`. Aby ograniczyć liczbę wykonywanych testów, zamiast oceniania każdej kombinacji parametrów algorytmu, są testowane kolejno parametry o wartościach pochodzących z wyżej wymienionych stałych, a reszta parametrów pochodzi ze stałej `STD_PARAMS`. Dodatkowo jest jeszcze stała `SEPARATE_PARAMS`, służąca do dodania osobnych zestawów parametrów. 
+Ocenę należy uruchomić komendą `pytest --benchmark-json=<ścieżka_do_pliku_z_oceną>.json`. Można zmieniać oceniane zbiory parametrów zmieniając wartości stałych `SIZES_ITERATIONS` (skumulowane `sizes` i `iterations`, ponieważ $`sizes * iterations = const`$ aby przebiegi algorytmu miały równą ilość wszystkich wygenerowanych osobników), `MUTATION_PROBS`, `CROSSOVER_PROBS`. Aby ograniczyć liczbę wykonywanych testów, zamiast oceniania każdej kombinacji parametrów algorytmu, są testowane kolejno parametry o wartościach pochodzących z wyżej wymienionych stałych, a reszta parametrów pochodzi ze stałej `STD_PARAMS`. Dodatkowo jest jeszcze stała `SEPARATE_PARAMS`, służąca do dodania osobnych zestawów parametrów. 
 Można również regulować ilość powtórzeń stałą `REPEAT`.
  
 ## Analiza
@@ -45,47 +45,46 @@ Typ wykresu `scatter` oraz `mean-std` biorą pod uwagę skumulowane populacje z 
 
 Oto przykładowe wyniki:
 
-* Ocena kolejnych populacji:  
+* Ocena kolejnych populacji (wydaje się, że ocena przyjmuje tu ujemne wartości, jednak jest to spowodowane tym, że rozmiar punktu rośnie wraz z ilością identycznych punktów):  
 
-![wykres](plots/scatter/s=20,i=100,m=0.05,c=0.1.png)
+![wykres](plots/scatter/s=80,i=125,m=0.05,c=0.1.png)
 * Średnia ocena i odchylenie standardowe kolejnych populacji:  
 
-![wykres](plots/mean-std/s=20,i=100,m=0.05,c=0.1.png)
-* Porównanie wydajności algorytmu dla różnych warości rozmiaru populacji:  
+![wykres](plots/mean-std/s=80,i=125,m=0.05,c=0.1.png)
+* Porównanie wydajności algorytmu dla różnych wartości rozmiaru populacji i ilości iteracji (tak, żeby $`size * iterations = const`$):  
 
-![wykres](plots/compare/i=500,m=0.05,c=0.1.png)
-* Porównanie wydajności algorytmu dla różnych warości iteracji algorytmu:  
+![wykres](plots/compare/s=[5,10,15,20,40,80,125],i=[2000,1000,667,500,250,125,80],m=0.05,c=0.1.png)
+* Porównanie wydajności algorytmu dla różnych wartości szansy na mutację:  
 
-![wykres](plots/compare/s=20,m=0.05,c=0.1.png)
-* Porównanie wydajności algorytmu dla różnych warości szansy na mutację:  
+![wykres](plots/compare/s=20,i=500,m=[0.001,0.01,0.025,0.05,0.1,0.25],c=0.1.png)
+* Porównanie wydajności algorytmu dla różnych wartości szansy na krzyżowanie:  
 
-![wykres](plots/compare/s=20,i=500,c=0.1.png)
-* Porównanie wydajności algorytmu dla różnych warości szansy na krzyżowanie:  
-
-![wykres](plots/compare/s=20,i=500,m=0.05.png)
+![wykres](plots/compare/s=20,i=500,m=0.05,c=[0.0,0.01,0.05,0.1,0.25,0.5,0.75].png)
 
 ## Wnioski
 Z wykresów porównujących można wywnioskować, że:
-* zwiększanie zarówno liczby iteracji jak i rozmiaru populacji wpływa pozytywnie na rozwiązanie. Im większe są warości tych parametrów, tym mniej ich wzrost wpływa na zbliżenie do rozwiązania. 
-* zarówno za duża jak i za mała szansa na mutację wpływa negatywnie na rozwiązanie. Najlepsza wartość wydaje się być w pobliżu $`0.03`$.
-* szansa na krzyżowanie nie wpływa znacząco na wynik algorytmu. Najlepsza wartość tego parametru mieści się w okolicach $`0.5`$.
+* dysponując "budżetem" łącznej liczby wygenerowanych przez algorytm osobników ($`size * iterations`$), warto dobrze pomyśleć nad rozdysponowaniem tego budżetu na parametry rozmiaru populacji i liczby iteracji. Przesada w obie strony skutkuje obniżeniem osiągów algorytmu. Optymalna wartość w tym przypadku leży gdzieś w okolicy $`(15, 667)`$
+* zarówno za duża jak i za mała szansa na mutację wpływa negatywnie na rozwiązanie. Najlepsza wartość wydaje się być w pobliżu $`0.1`$.
+* szansa na krzyżowanie nie wpływa znacząco na wynik algorytmu. Dodatkowo za każdym razem, gdy generuję ten wykres, wygląda on inaczej. Przyjąłem wartość tego parametru dla rozwiązania równą $`0.05`$.
 
-Stąd można wnioskować, że najlepsze parametry dla algorytmu mieszczą się w okolicach:
-* `size=40`
-* `iterations=500`
-* `mutation_prob=0.03`
-* `crossover_prob=0.5`
+Wobec tego najlepsze parametry dla algorytmu mieszczą się w okolicach:
+* `size=15`
+* `iterations=667`
+* `mutation_prob=0.1`
+* `crossover_prob=0.05`
 
 Wykresy typu `scatter` i `mean-std` dla tak dobranych parametrów:
 
-![wykres](plots/scatter/s=40,i=500,m=0.03,c=0.5.png)
-![wykres](plots/mean-std/s=40,i=500,m=0.03,c=0.5.png)
+![wykres](plots/scatter/s=15,i=667,m=0.1,c=0.05.png)
+![wykres](plots/mean-std/s=15,i=667,m=0.1,c=0.05.png)
 
 Dla porównania zbiór parametrów wybranych przeze mnie "na wyczucie" (użyty jako `STD_PARAMS` w `test_benchmark.py`):
 
 ![wykres](plots/scatter/s=20,i=500,m=0.05,c=0.1.png)
 ![wykres](plots/mean-std/s=20,i=500,m=0.05,c=0.1.png)
 
-Jak widać, w przypadku parametrów dobranych eksperymentalnie, osobniki mają trochę mniejsze odchylenie standardowe, dzięki czemu są w stanie dokładniej znaleźć minimum (średnie rozwiązanie jest trochę mniejsze od średniego rozwiązania parametrów dobranych "na wyczucie"), jednak nie są to duże różnice. Z drugiej strony oznacza to, że nie są w stanie tak efektywnie eksplorować przestrzeni, więc w innym zastosowaniu mogłoby się okazać, że ten zestaw parametrów jest gorszy.
+Udało się (co prawda bardzo niewiele) obniżyć średnią ocenę wyniku dla paremtrów dobranych eksperymentalnie.  
+Na wykresach typu `scater` można zauważyć, że w I przypadku osobniki bardziej równomiernie pokrywają wykres - może to oznaczać, że bardziej "odrywają" się od swoich grup w poszukiwaniu lepszych minimów. Przypuszczenie to potwierdza również wyższa wartość odchylenia standardowego, widoczna na wykresie typu `mean-std`.  
+W II przypadku osobniki zapewnie czasami znajdują sub-optymalne minimum i mają zbyt słabą eksplorację, by się z niego wydostać.
 
 </div>

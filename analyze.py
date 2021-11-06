@@ -2,14 +2,20 @@
 
 from io import TextIOWrapper
 import json
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from matplotlib import pyplot as plt
 from dataclasses import dataclass, field
+from matplotlib.axes import Axes
 import numpy as np
 from collections import Counter
-from argparse import ArgumentError, ArgumentParser
+from argparse import ArgumentParser
 from pathlib import Path
 from main import probability, iterations, size
+
+
+class AnalyzeError(ValueError):
+    def __init__(self, msg: str):
+        super().__init__(msg)
 
 
 @dataclass
@@ -110,23 +116,10 @@ def plot_fitness_mean_std_dev(
     plt.tight_layout()
 
 
-class WrongNumberOfParamsError(ArgumentError):
-    def __init__(self, expected_number: int):
-        super().__init__(f"Exactly {expected_number} of parameters "
-                         "(size, iterations, mutation_prob, crossover_prob) "
-                         f"must be specified.")
-
-
-class BenchmarkParamKeyError(KeyError):
-    def __init__(self, param_name: str, param_value: Any):
-        super().__init__(f"Benchmark not found for {param_name}={param_value}")
-
-
 def plot_compare(benchmark: Benchmark,
-                 size: Optional[int] = None,
-                 iterations: Optional[int] = None,
-                 mutation_prob: Optional[int] = None,
-                 crossover_prob: Optional[int] = None,
+                 size_iterations: List[Tuple[float, float]],
+                 mutation_prob: List[float],
+                 crossover_prob: List[float],
                  results_format: Optional[dict] = None,
                  times_format: Optional[dict] = None,
                  height: float = 4.8,
@@ -139,48 +132,50 @@ def plot_compare(benchmark: Benchmark,
     if times_format is None:
         times_format = {}
 
-    params = [size, iterations, mutation_prob, crossover_prob]
-    param_names = ["Size", "Iterations",
+    params = [size_iterations, mutation_prob, crossover_prob]
+    param_names = ["(Size, Iterations)",
                    "Mutation probability", "Crossover probability"]
-    param_names_in_code = ["size", "iterations",
-                           "mutation_prob", "crossover_prob"]
+    param_code_names = [("size", "iterations"),
+                        ("mutation_prob",), ("crossover_prob",)]
+
+    n_records = None
+    variable_param_values = None
+    variable_param_name = None
+    params_no_varying = list(zip(params, param_code_names))
+    for i, (param, name) in enumerate(zip(params, param_names)):
+        if len(param) == 1:
+            continue
+        elif len(param) >= 1:
+            if n_records is None:
+                n_records = len(param)
+                variable_param_values = param
+                variable_param_name = name
+                params_no_varying.pop(i)
+            else:
+                raise AnalyzeError("Expected exactly one parameter "
+                                   "with >= 1 number of values")
+        else:
+            raise AnalyzeError("All parameters must have at least one value")
+
+    size, iterations = zip(*size_iterations)
+    params = [size, iterations, *params[1:]]
+
+    params = [param * n_records if len(param)
+              == 1 else param for param in params]
+
     try:
-        i_none = params.index(None)
-    except ValueError:
-        raise WrongNumberOfParamsError(3)
+        records = [benchmark[s][i][mp][cm] for s, i, mp, cm in zip(*params)]
+    except KeyError:
+        raise AnalyzeError("Given benchmark does not exist")
 
-    if not all(param is not None for i, param in
-               enumerate(params) if i != i_none):
-        raise WrongNumberOfParamsError(3)
-
-    sub_b = benchmark
-    param_names_iter = iter(param_names_in_code)
-    current_name = next(param_names_iter)
-    try:
-        for param in params[:i_none]:
-            sub_b = sub_b[param]
-            current_name = next(param_names_iter)
-
-        param_values = list(sub_b.keys())
-        subs_b = list(sub_b.values())
-        current_name = next(param_names_iter)
-
-        for param in params[i_none+1:]:
-            subs_b = [sub_b[param] for sub_b in subs_b]
-            current_name = next(param_names_iter)
-    except KeyError as e:
-        raise BenchmarkParamKeyError(current_name, e.args[0])
-    except StopIteration:
-        pass
-
-    records: List[BenchmarkRecord] = subs_b
-
-    to_sort = list(zip(param_values, records))
+    to_sort = list(zip(variable_param_values, records))
     to_sort.sort()
     param_values, records = zip(*to_sort)
+    param_values: List[float]
+    records: List[BenchmarkRecord]
 
     ax_results = plt.axes()
-    ax_time = ax_results.twinx()
+    ax_time: Axes = ax_results.twinx()
 
     for i, record in enumerate(records):
         results = np.array(record.aggregate_results())
@@ -201,19 +196,16 @@ def plot_compare(benchmark: Benchmark,
 
     plt.xticks(range(len(records)), param_values)
 
-    ax_results.set_xlabel(param_names[i_none])
+    ax_results.set_xlabel(variable_param_name)
     ax_results.set_ylabel("Result fitness score")
     ax_time.set_ylabel("Time [ms]")
 
     title = "Results comparison for "
-    for i, (name, value) in enumerate(zip(param_names_in_code, params)):
-        if value is None:
-            continue
-        title += f"{name}={value},"
-        if i == 1:
-            title += "\n"
-        else:
-            title += " "
+    separators = iter([" ", "\n", " "])
+    for i, (values, names) in enumerate(params_no_varying):
+        values = np.array(values).reshape(-1)
+        for value, name in zip(values, names):
+            title += f"{name}={value}," + next(separators)
     title = title[:-2]
 
     plt.title(title)
@@ -259,18 +251,13 @@ def get_record(benchmark,
                iterations: int,
                mutation_prob: int,
                crossover_prob: int):
-    param_name = ""
     try:
-        param_name = "size"
         sub_b = benchmark[size]
-        param_name = "iterations"
         sub_b = sub_b[iterations]
-        param_name = "mutation_prob"
         sub_b = sub_b[mutation_prob]
-        param_name = "crossover_prob"
         return sub_b[crossover_prob]
-    except KeyError as e:
-        raise BenchmarkParamKeyError(param_name, e.args[0])
+    except KeyError:
+        raise AnalyzeError("Given benchmark does not exist")
 
 
 if __name__ == "__main__":
@@ -282,21 +269,24 @@ if __name__ == "__main__":
     parser.add_argument(
         "plot_type", choices=["scatter", "mean-std", "compare"],
         help="Choose plot type. 'scatter' and 'mean-std' require "
-        "all 4 algorithm parameters, while 'compare' exactly 3")
+        "1 of all 4 algorithm parameters, while 'compare' > 1 for "
+        "one chosen parameter and 1 for other 3")
     parser.add_argument(
         "-d", "--plots-dir", type=Path, default=Path("plots"),
         help="Generate plots in the given directory")
     params = parser.add_argument_group("Algorithm parameters")
     params.add_argument(
-        "-s", "--size", default=None, type=size, help="Population size")
+        "-s", "--size", nargs="+", required=True,
+        type=size, help="Population size")
     params.add_argument(
-        "-i", "--iterations", default=None, type=iterations, help="Iterations")
+        "-i", "--iterations", nargs="+", required=True,
+        type=iterations, help="Iterations")
     params.add_argument(
-        "-m", "--mutation-prob", default=None, type=probability,
-        help="Mutation probability")
+        "-m", "--mutation-prob", nargs="+", required=True,
+        type=probability, help="Mutation probability")
     params.add_argument(
-        "-c", "--crossover-prob", default=None, type=probability,
-        help="Crossover probability")
+        "-c", "--crossover-prob", nargs="+", required=True,
+        type=probability, help="Crossover probability")
     parser.add_argument(
         "--pyplot-kwargs", default={}, type=json.loads,
         help="Keyword arguments given to pyplot in format "
@@ -314,43 +304,40 @@ if __name__ == "__main__":
     params = [args.size, args.iterations,
               args.mutation_prob, args.crossover_prob]
 
-    def handle_scatter():
-        if any(param is None for param in params):
-            raise WrongNumberOfParamsError(4)
-        record = get_record(benchmark, args.size, args.iterations,
-                            args.mutation_prob, args.crossover_prob)
-        plot_fitness_scatter(
-            record, height=args.height, width=args.width, **args.pyplot_kwargs)
-
-    def handle_mean_std():
-        if any(param is None for param in params):
-            raise WrongNumberOfParamsError(4)
-        record = get_record(benchmark, args.size, args.iterations,
-                            args.mutation_prob, args.crossover_prob)
-        plot_fitness_mean_std_dev(
-            record, height=args.height, width=args.width, **args.pyplot_kwargs)
+    def handle_scatter_mean_std():
+        if any(len(param) != 1 for param in params):
+            raise AnalyzeError("Expected one of each parameter")
+        record = get_record(benchmark, args.size[0], args.iterations[0],
+                            args.mutation_prob[0], args.crossover_prob[0])
+        fnc = plot_fitness_scatter if args.plot_type == "scatter" \
+            else plot_fitness_mean_std_dev
+        fnc(record, height=args.height, width=args.width,
+            **args.pyplot_kwargs)
 
     def handle_compare():
-        plot_compare(benchmark, args.size, args.iterations,
+        plot_compare(benchmark, list(zip(args.size, args.iterations)),
                      args.mutation_prob, args.crossover_prob,
                      height=args.height, width=args.width,
                      **args.pyplot_kwargs)
 
     plot_types_map = {
-        "scatter": handle_scatter,
-        "mean-std": handle_mean_std,
+        "scatter": handle_scatter_mean_std,
+        "mean-std": handle_scatter_mean_std,
         "compare": handle_compare
     }
 
     try:
         plot_types_map[args.plot_type]()
-    except (BenchmarkParamKeyError, WrongNumberOfParamsError) as e:
+    except AnalyzeError as e:
         print(f"Error: {e}")
         exit(1)
 
     param_short_names = ["s", "i", "m", "c"]
-    filename = ",".join([f"{short}={value}" for short, value in zip(
-        param_short_names, params) if value is not None]) + ".png"
+    values_str = [str(values[0]) if len(values) == 1 else
+                  f"[{','.join(str(v) for v in values)}]" for values in params]
+    filename = ",".join(
+        [short + "=" + value
+         for short, value in zip(param_short_names, values_str)]) + ".png"
 
     path = args.plots_dir / args.plot_type
     path.mkdir(parents=True, exist_ok=True)

@@ -1,8 +1,9 @@
 # by Jakub Ostrzołek
 
 from typing import Callable, List, Tuple, Union
-from random import choice, random, sample
+from random import random, sample
 from dataclasses import dataclass
+import numpy as np
 
 Solution = Tuple[bool, ...]
 RatedSolution = Tuple[float, Solution]
@@ -16,18 +17,19 @@ class Generation:
     best_fitness: float
 
 
-def reproduct_tournment(
+def reproduct(
         population: List[Solution],
-        fitness: List[float],
-        optimum: Callable = min):
-    result = [None] * len(population)
-    graded_solutions = list(zip(fitness, population))
+        fitness: List[float]):
 
-    for i in range(len(population)):
-        first = choice(graded_solutions)
-        second = choice(graded_solutions)
-        result[i] = (optimum(first, second)[1])
-    return result
+    fitness_reverse = [1/f for f in fitness]
+    fitness_reverse_sum = sum(fitness_reverse)
+    probabilities = np.array([f/fitness_reverse_sum for f in fitness_reverse])
+
+    # cannot use directly population, because numpy expects a 1-D list
+    indices = np.random.choice(
+        list(range(len(population))), size=len(population), p=probabilities)
+
+    return [population[i] for i in indices]
 
 
 def mutate_gene(gene: bool, mutation_prob: float):
@@ -50,15 +52,32 @@ def mutate(
 def crossover_two_point(
         population: List[Solution],
         crossover_prob: float):
-    result = list(population)
-    for i, (solution1, solution2) in enumerate(zip(result[:-1], result[1:])):
+    init_len = len(population)
+
+    if len(population) % 2 != 0:
+        population = population + [population[-1]]
+
+    population = np.array(population)
+    pairs_shape = (population.shape[0]//2, 2, population.shape[1])
+    pairs = np.array(population).reshape(pairs_shape)
+
+    result = [None] * pairs.size
+
+    for i, (solution1, solution2) in enumerate(pairs):
+        solution1 = tuple(solution1)
+        solution2 = tuple(solution2)
+
         if random() < crossover_prob:
             j, k = sorted(sample(range(len(solution1) + 1), 2))
             child1 = solution1[:j] + solution2[j:k] + solution1[k:]
             child2 = solution2[:j] + solution1[j:k] + solution2[k:]
-            result[i] = child1
-            result[i + 1] = child2
-    return result
+        else:
+            child1 = solution1
+            child2 = solution2
+        result[2*i] = child1
+        result[2*i + 1] = child2
+
+    return result[:init_len]
 
 
 def genetic_algorithm(
@@ -82,7 +101,7 @@ def genetic_algorithm(
     for _ in range(iterations):
         generations.append(Generation(population, fitness, best[1], best[0]))
 
-        population = reproduct_tournment(population, fitness)
+        population = reproduct(population, fitness)
         population = mutate(population, mutation_prob)
         population = crossover_two_point(population, crossover_prob)
 
