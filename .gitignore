@@ -1,5 +1,23 @@
 test.ipynb
-benchmark.json
+benchmark*.json
+
+# docs plots
+plots/progress/*
+plots/compare/*
+!plots/progress/size=2,p1_depth=6,p2_depth=4.jpg
+!plots/progress/size=2,p1_depth=6,p2_depth=8.jpg
+!plots/progress/size=3,p1_depth=4,p2_depth=2.jpg
+!plots/progress/size=3,p1_depth=4,p2_depth=6.jpg
+!plots/progress/size=4,p1_depth=3,p2_depth=2.jpg
+!plots/progress/size=4,p1_depth=3,p2_depth=4.jpg
+!plots/progress/size=5,p1_depth=2,p2_depth=1.jpg
+!plots/progress/size=5,p1_depth=2,p2_depth=3.jpg
+!plots/compare/size=2,p1_depth=6.jpg
+!plots/compare/size=3,p1_depth=4.jpg
+!plots/compare/size=4,p1_depth=3.jpg
+!plots/compare/size=5,p1_depth=2.jpg
+!plots/compare/size=4,p1_depth=1.jpg
+!plots/compare/size=5,p1_depth=1.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

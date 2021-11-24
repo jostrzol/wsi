@@ -1,3 +1,5 @@
+# by Jakub Ostrzołek
+
 from typing import Callable, Tuple
 from math import inf
 

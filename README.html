@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css">
+<link rel="stylesheet" href="file:////home/tuco/.vscode-server/extensions/goessner.mdmath-2.7.4/themes/default/style.css">
+
+</head>
+<body class="markdown-body">
+<div  ></div>
+<div style="padding: 2% 5%;">
+<div  ></div>
+<h1 style="text-align: center;">
+<div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
+<div>WSI ćwiczenie 3 - algorytm minimax z obcinaniem alpha - beta</div>
+</h1>
+<h2 id="opis-c487wiczenia">Opis ćwiczenia</h2>
+<p>Celem ćwiczenia było zaimplementowanie algorytmu minimax z obcinaniem alpha - beta oraz przetestowanie go na <a href="https://github.com/lychanl/two-player-games">implementacji gry dots and boxes</a></p>
+<p>Funkcja implementująca algorytm przyjmuje następujące główne argumenty:</p>
+<ul>
+<li><code>state</code> - stan gry, na podstawie którego wybierany jest następny ruch obecnego gracza</li>
+<li><code>depth</code> - głębokość przeszukiwania drzewa stanów gry</li>
+<li><code>evaluate_state</code> - funkcja ewaluująca stan gry (dodatnie wartości oznaczają przewagę gracza max, ujemne - min)</li>
+<li><code>max_player</code> - wybór gracza max</li>
+</ul>
+<p>Funkcja zwraca krotkę <code>(ocena, ruch)</code>, która reprezentuje najlepsze rozwiązanie dla gracza max.</p>
+<h2 id="wykorzystane-zewnc499trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
+<ul>
+<li><code>numpy</code></li>
+<li><code>matplotlib</code></li>
+<li><code>pytest</code></li>
+<li><code>pytest-benchmark</code></li>
+</ul>
+<h2 id="uc5bcycie">Użycie</h2>
+<p>Aby użyć algorytmu dla wybranych parametrów algorytmu należy uruchomić skrypt <code>main.py</code> i postępować zgodnie z instrukcjami (<code>main.py --help</code>).</p>
+<h2 id="ocena-parametrc3b3w-algorytmu">Ocena parametrów algorytmu</h2>
+<p>Ocenę należy uruchomić komendą <code>pytest --benchmark-json=benchmark.json.json</code>.</p>
+<h2 id="wykresy">Wykresy</h2>
+<p>Aby wygenerować wykresy, należy wykonać skrypt <code>plot.py</code>. Za pomocą skryptu można wygenerować:</p>
+<ul>
+<li>wykresy przebiegu jednej rozgrywki z oznaczonymi ocenami ruchów graczy oraz ich punktami w każdej turze gry</li>
+<li>wykresy porównujące różnicę wyników pierszego gracza i drugiego gracza od zmieniającej się głębokości przeszukiwania drugiego gracza, przy stałym rozmiarze planszy i głębokości pierwszego gracza.</li>
+</ul>
+<p>Oto przykładowe wyniki:</p>
+<ul>
+<li>Przebiegi rozgrywek:</li>
+</ul>
+<p><img src="plots/progress/size=2,p1_depth=6,p2_depth=4.jpg" alt="wykres" class="loading" id="image-hash--1542186812" data-src="plots/progress/size=2,p1_depth=6,p2_depth=4.jpg">
+<img src="plots/progress/size=2,p1_depth=6,p2_depth=8.jpg" alt="wykres" class="loading" id="image-hash--1538492728" data-src="plots/progress/size=2,p1_depth=6,p2_depth=8.jpg">
+<img src="plots/progress/size=3,p1_depth=4,p2_depth=2.jpg" alt="wykres" class="loading" id="image-hash-438648517" data-src="plots/progress/size=3,p1_depth=4,p2_depth=2.jpg">
+<img src="plots/progress/size=3,p1_depth=4,p2_depth=6.jpg" alt="wykres" class="loading" id="image-hash-442342601" data-src="plots/progress/size=3,p1_depth=4,p2_depth=6.jpg">
+<img src="plots/progress/size=4,p1_depth=3,p2_depth=2.jpg" alt="wykres" class="loading" id="image-hash-1910796711" data-src="plots/progress/size=4,p1_depth=3,p2_depth=2.jpg">
+<img src="plots/progress/size=4,p1_depth=3,p2_depth=4.jpg" alt="wykres" class="loading" id="image-hash-1912643753" data-src="plots/progress/size=4,p1_depth=3,p2_depth=4.jpg">
+<img src="plots/progress/size=5,p1_depth=2,p2_depth=1.jpg" alt="wykres" class="loading" id="image-hash--912945912" data-src="plots/progress/size=5,p1_depth=2,p2_depth=1.jpg">
+<img src="plots/progress/size=5,p1_depth=2,p2_depth=3.jpg" alt="wykres" class="loading" id="image-hash--911098870" data-src="plots/progress/size=5,p1_depth=2,p2_depth=3.jpg"></p>
+<ul>
+<li>Porównania:</li>
+</ul>
+<p><img src="plots/compare/size=2,p1_depth=6.jpg" alt="wykres" class="loading" id="image-hash--708342633" data-src="plots/compare/size=2,p1_depth=6.jpg">
+<img src="plots/compare/size=3,p1_depth=4.jpg" alt="wykres" class="loading" id="image-hash--1220723852" data-src="plots/compare/size=3,p1_depth=4.jpg">
+<img src="plots/compare/size=4,p1_depth=3.jpg" alt="wykres" class="loading" id="image-hash--1732181550" data-src="plots/compare/size=4,p1_depth=3.jpg">
+<img src="plots/compare/size=5,p1_depth=2.jpg" alt="wykres" class="loading" id="image-hash-2051328048" data-src="plots/compare/size=5,p1_depth=2.jpg"></p>
+<h2 id="wnioski">Wnioski</h2>
+<p>Z wykresów przebiegu rozgrywki można wywnioskować, że:</p>
+<ul>
+<li>przez ok. połowę gry gracze nie są w stane przewidzieć dobrych ruchów, wybierają ruchy w których nie stracą w bezpośredni sposób punktów, w wyniku czego wyniki utrzymują się przy zerze.</li>
+<li>w pewnym momencie jeden z graczy znajduje dobrą strategię wygrywającą, lub 'orientuje się', że prawdopodobnie jest na przegranej pozycji. Zazwyczaj ten stan rzeczy utrzymuje się do końca - wygrywający wygrywa, a przegrywający przegrywa.</li>
+<li>zazwyczaj jako pierwszy jest w stanie ocenić swój ruch na wartość różną od 0 gracz o większej głębokości przeszukiwania, jednak nie zawsze oznacza to, że on właśnie wygra.</li>
+</ul>
+<p>Z wykresów porównujących można wywnioskować, że:</p>
+<ul>
+<li><code>size=2</code>:
+<ul>
+<li>pierwszy gracz ma dużą przewagę - wygrywa nawet, gdy drugi głębiej przeszkuje graf stanów</li>
+</ul>
+</li>
+<li><code>size=3</code>:
+<ul>
+<li>pierwszy gracz ma lekką przewagę - gdy drugi gracz głębiej przeszukuje graf stanów od pierwszego, ma szansę go pokonać</li>
+</ul>
+</li>
+<li><code>size=4</code>:
+<ul>
+<li>głębokość przeszukiwania ma mały wpływ na wynik rozgrywki - dla wybranych przeze mnie wartości mecz zawsze kończy się remisem. Niestety nie mogłem sobie pozwolić na ustawianie większego <code>p2_depth</code> niż 5, bo zbyt długo wykonywałby się benchmark (dla <code>p2_depth=5</code> już wykonywał się ponad 1 minutę, a cały benchmark 37 minut). Natomiast mogłem zmniejszyć <code>p1_depth</code>. Jak widać na poniższym wykresie dalej utrzymuje się ten sam wynik meczu:</li>
+</ul>
+</li>
+</ul>
+<p><img src="plots/compare/size=4,p1_depth=1.jpg" alt="wykres" class="loading" id="image-hash--1734028592" data-src="plots/compare/size=4,p1_depth=1.jpg"></p>
+<ul>
+<li><code>size=5</code>
+<ul>
+<li>podobnie jak w przypadku <code>size=4</code> - nie widać wpływu <code>p2_depth</code> na wynik rozgrywki, nawet dla mniejszego <code>p1_depth</code>:
+<img src="plots/compare/size=5,p1_depth=1.jpg" alt="wykres" class="loading" id="image-hash-2050404527" data-src="plots/compare/size=5,p1_depth=1.jpg"></li>
+</ul>
+</li>
+</ul>
+<div  ></div>
+</div>
+</body>
+</html>

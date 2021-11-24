@@ -1,3 +1,5 @@
+# by Jakub Ostrzołek
+
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 from pytest import mark
@@ -16,10 +18,12 @@ class BParams:
 
 
 PARAMS = [
-    BParams(2, 6, [4, 5, 6, 7, 8]),
-    BParams(3, 4, [2, 3, 4, 5, 6]),
-    BParams(4, 3, [1, 2, 3, 4]),
-    BParams(5, 2, [1, 2, 3]),
+    BParams(2, 6, list(range(1, 11))),
+    BParams(3, 4, list(range(1, 8))),
+    BParams(4, 3, list(range(1, 6))),
+    BParams(4, 1, list(range(1, 6))),
+    BParams(5, 2, list(range(1, 6))),
+    BParams(5, 1, list(range(1, 6))),
 ]
 
 

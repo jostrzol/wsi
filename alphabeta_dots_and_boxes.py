@@ -1,3 +1,5 @@
+# by Jakub Ostrzołek
+
 from typing import Generator, Optional, Tuple
 from two_player_games.games.dots_and_boxes import (
     DotsAndBoxes, DotsAndBoxesState, Player)

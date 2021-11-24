@@ -1,3 +1,5 @@
+# by Jakub Ostrzołek
+
 from argparse import ArgumentParser
 from math import inf
 from alphabeta_dots_and_boxes import play_dots_and_boxes
@@ -23,9 +25,9 @@ if __name__ == "__main__":
     parser.add_argument("size", type=constrain(2, type=int),
                         help="gameboard size (at least 2)")
     parser.add_argument("depth", type=constrain(1, type=int),
-                        help="search depth for player 1(at least 1)")
+                        help="search depth for player 1 (>= 1)")
     parser.add_argument("depth2", type=constrain(1, type=int),
-                        help="search depth for player 2(at least 1)")
+                        help="search depth for player 2 (>= 1)")
 
     args = parser.parse_args()
 
