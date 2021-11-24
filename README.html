@@ -18,7 +18,7 @@
 <div>WSI ćwiczenie 3 - algorytm minimax z obcinaniem alpha - beta</div>
 </h1>
 <h2 id="opis-c487wiczenia">Opis ćwiczenia</h2>
-<p>Celem ćwiczenia było zaimplementowanie algorytmu minimax z obcinaniem alpha - beta oraz przetestowanie go na <a href="https://github.com/lychanl/two-player-games">implementacji gry dots and boxes</a></p>
+<p>Celem ćwiczenia było zaimplementowanie algorytmu minimax z obcinaniem alpha - beta oraz przetestowanie go na <a href="https://github.com/lychanl/two-player-games">implementacji gry dots and boxes</a>.</p>
 <p>Funkcja implementująca algorytm przyjmuje następujące główne argumenty:</p>
 <ul>
 <li><code>state</code> - stan gry, na podstawie którego wybierany jest następny ruch obecnego gracza</li>
@@ -66,7 +66,7 @@
 <h2 id="wnioski">Wnioski</h2>
 <p>Z wykresów przebiegu rozgrywki można wywnioskować, że:</p>
 <ul>
-<li>przez ok. połowę gry gracze nie są w stane przewidzieć dobrych ruchów, wybierają ruchy w których nie stracą w bezpośredni sposób punktów, w wyniku czego wyniki utrzymują się przy zerze.</li>
+<li>przez ok. połowę gry gracze nie są w stane przewidzieć dobrych ruchów, wybierają ruchy w których nie stracą w bezpośredni sposób punktów, w wyniku czego wyniki utrzymują się przy zerze. Gracze 'boją się' wykonać ryzykowny ruch, który może opłacić się później, bo nie potrafią przwidzieć tak dalekiej przyszłości.</li>
 <li>w pewnym momencie jeden z graczy znajduje dobrą strategię wygrywającą, lub 'orientuje się', że prawdopodobnie jest na przegranej pozycji. Zazwyczaj ten stan rzeczy utrzymuje się do końca - wygrywający wygrywa, a przegrywający przegrywa.</li>
 <li>zazwyczaj jako pierwszy jest w stanie ocenić swój ruch na wartość różną od 0 gracz o większej głębokości przeszukiwania, jednak nie zawsze oznacza to, że on właśnie wygra.</li>
 </ul>
