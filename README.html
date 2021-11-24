@@ -41,8 +41,8 @@
 <h2 id="wykresy">Wykresy</h2>
 <p>Aby wygenerować wykresy, należy wykonać skrypt <code>plot.py</code>. Za pomocą skryptu można wygenerować:</p>
 <ul>
-<li>wykresy przebiegu jednej rozgrywki z oznaczonymi ocenami ruchów graczy oraz ich punktami w każdej turze gry</li>
-<li>wykresy porównujące końcowe wyniki pierwszego gracza i drugiego gracza w zależności od zmieniającej się głębokości przeszukiwania drugiego gracza, przy stałym rozmiarze planszy i głębokości przeszukiwania pierwszego gracza.</li>
+<li>wykresy przebiegu jednej rozgrywki, z oznaczonymi ocenami ruchów graczy oraz ich punktami w każdej turze gry</li>
+<li>wykresy porównujące końcowe wyniki pierwszego i drugiego gracza w zależności od zmieniającej się głębokości przeszukiwania drugiego gracza, przy stałym rozmiarze planszy i głębokości przeszukiwania pierwszego gracza.</li>
 </ul>
 <p>Oto przykładowe wyniki:</p>
 <ul>
@@ -66,7 +66,7 @@
 <h2 id="wnioski">Wnioski</h2>
 <p>Z wykresów przebiegu rozgrywki można zauważyć, że:</p>
 <ul>
-<li>przez ok. połowę gry gracze nie są w stane przewidzieć dobrych ruchów, wybierają ruchy w których nie stracą w bezpośredni sposób punktów, w wyniku czego wyniki utrzymują się przy zerze. Gracze 'boją się' wykonać ryzykowny ruch, który może opłacić się później, bo nie potrafią przwidzieć tak dalekiej przyszłości.</li>
+<li>przez ok. połowę gry gracze nie są w stane przewidzieć dobrych ruchów, wybierają ruchy w których nie stracą w bezpośredni sposób punktów, przez co wyniki utrzymują się przy zerze. Gracze 'boją się' wykonać ryzykowny ruch, który może opłacić się później, bo nie potrafią przwidzieć tak dalekiej przyszłości.</li>
 <li>w pewnym momencie jeden z graczy znajduje dobrą strategię wygrywającą, lub 'orientuje się', że prawdopodobnie jest na przegranej pozycji. Zazwyczaj ten stan rzeczy utrzymuje się do końca - wygrywający wygrywa, a przegrywający przegrywa.</li>
 <li>zazwyczaj jako pierwszy jest w stanie ocenić swój ruch na wartość różną od 0 gracz o większej głębokości przeszukiwania, jednak nie zawsze oznacza to, że on właśnie wygra.</li>
 <li>gracze bardzo często zdobywają wiele punktów z rzędu - prowadzi to do &quot;schodkowgo&quot; wyglądu wykresów. Im większy <code>size</code>, tym bardziej jest to widoczne.</li>
@@ -85,21 +85,28 @@
 </li>
 <li><code>size=4</code>:
 <ul>
-<li>głębokość przeszukiwania ma mały wpływ na wynik rozgrywki - dla wybranych przeze mnie wartości mecz zawsze kończy się remisem. Niestety nie mogłem sobie pozwolić na ustawianie większego <code>p2_depth</code> niż 5, bo zbyt długo wykonywałby się benchmark (dla <code>p2_depth=5</code> już wykonywał się ponad 1 minutę, a cały benchmark 37 minut). Natomiast mogłem zmniejszyć <code>p1_depth</code>. Jak widać na poniższym wykresie dalej utrzymuje się ten sam wynik meczu:
+<li>głębokość przeszukiwania ma mały wpływ na wynik rozgrywki - dla wybranych przeze mnie wartości mecz zawsze kończy się remisem. Niestety nie mogłem sobie pozwolić na ustawianie większego <code>p2_depth</code> niż 5, bo zbyt długo wykonywałby się benchmark (dla <code>p2_depth=5</code> już wykonywał się ponad 1 minutę). Natomiast mogłem zmniejszyć <code>p1_depth</code>. Jak widać na poniższym wykresie dalej utrzymuje się ten sam wynik meczu:<br>
 <img src="plots/compare/size=4,p1_depth=1.jpg" alt="wykres" class="loading" id="image-hash--1734028592" data-src="plots/compare/size=4,p1_depth=1.jpg"></li>
 </ul>
 </li>
 <li><code>size=5</code>
 <ul>
-<li>podobnie jak w przypadku <code>size=4</code> - nie widać wpływu <code>p2_depth</code> na wynik rozgrywki, nawet dla mniejszego <code>p1_depth</code>:
+<li>podobnie jak w przypadku <code>size=4</code> - nie widać wpływu <code>p2_depth</code> na wynik rozgrywki, nawet dla mniejszego <code>p1_depth</code>:<br>
 <img src="plots/compare/size=5,p1_depth=1.jpg" alt="wykres" class="loading" id="image-hash-2050404527" data-src="plots/compare/size=5,p1_depth=1.jpg"></li>
+<li>w odróżnieniu od przypadku <code>size=4</code>, tutaj zamiast remisu cały czas wygrywa gracz drugi przewagą 5 pkt.</li>
 </ul>
 </li>
 </ul>
-<p>Gdy obejrzymy przebieg przykładowej rogrywki dla dużych <code>size</code>, od razu widać powód równych wynków niezależnie od wartości <code>p2_depth</code> oraz powód &quot;schodkowych&quot; wykresów.</p>
+<p>Można zauważyć cieakawą zależność:</p>
+<ul>
+<li>dla <code>size=3</code> zazwyczaj wygrywa gracz 1. przewagą 3 pkt (równą <code>size</code>)</li>
+<li>dla <code>size=4</code> remis</li>
+<li>dla <code>size=5</code> wygrywa gracz 2. przewagą 5 pkt (równą <code>size</code>)</li>
+</ul>
+<p>Gdy obejrzymy przebieg przykładowej rogrywki dla dużych <code>size</code>, od razu wyjaśnia się powyższa zależność. Widać również powód równych wynków graczy niezależnie od wartości <code>p2_depth</code> oraz &quot;schodkowych&quot; wykresów.</p>
 <p><img src="resources/big_size_game.gif" alt="gra" class="loading" id="image-hash-311027348" data-src="resources/big_size_game.gif"></p>
-<p>Gracze na początku zapełniają planszę poziomymi kreskami, a następnie zdobywają punkty, kładąc pionowe linie - stąd &quot;schodki&quot; - zdobywają punkty za cały rząd kwadratów na raz, a następnie oddają kolejny rząd przeciwnikowi (nie mają innego wyboru).<br>
-Równe wyniki można wyjaśnić tym, że po zapełnieniu planszy poziomymi kreskami, tak na prawdę nie ma znaczenia gdzie następny gracz położy swoją kreskę. Od tego momentu gra może mieć tylko dwa rozstrzygnięcia:</p>
+<p>Gracze na początku zapełniają planszę poziomymi kreskami. Następnie naprzemiennie zajmują całe rzędy kwadratów na raz - stąd &quot;schodki&quot;.
+Równe wyniki można wyjaśnić tym, że po zapełnieniu planszy poziomymi kreskami, tak na prawdę nie mają znaczenia następne ruchy. Od tego momentu gra może mieć tylko dwa rozstrzygnięcia:</p>
 <ul>
 <li>jeżeli <code>size</code> jest parzyste - remis</li>
 <li>jeżeli <code>size</code> jest nieparzyste - wygra gracz, który jako pierwszy zdobędzie punkty za zapełnienie jednego rzędu. Dokładniej:
@@ -109,7 +116,7 @@ Równe wyniki można wyjaśnić tym, że po zapełnieniu planszy poziomymi kresk
 </ul>
 </li>
 </ul>
-<p>Aby zapobiec tego typu zachowaniom, należałoby znacznie zwiększyć głębokość przeszukiwania grafów stanów dla graczy, dzięki czemu mogliby zareagować przed wystąpieniem &quot;punktu bez powrotu&quot; - czyli zapełnieniem wszystkich miejsc na poziome kreski. Niestety zwiększenie głębokości przeszukiwania wiąże się z wykładniczym wzrostem ilości wykonywanych obliczeń, co szybko prowadzi do ekstremalnie długich czasów przebiegu gry.</p>
+<p>Aby zapobiec tego typu zachowaniom, należałoby znacznie zwiększyć głębokość przeszukiwania grafów stanów dla graczy, dzięki czemu mogliby zareagować przed wystąpieniem &quot;punktu bez powrotu&quot; - czyli zapełnieniem wszystkich miejsc na poziome kreski. Niestety zwiększenie głębokości przeszukiwania wiąże się z wykładniczym wzrostem ilości wykonywanych obliczeń, co szybko prowadzi do ekstremalnie długich czasów przebiegu gry (przebiegi użyte w tej dokumentacji wykonywały się łącznie 37 minut).</p>
 <div  ></div>
 </div>
 </body>
