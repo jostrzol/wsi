@@ -1,10 +1,10 @@
 from argparse import ArgumentParser
 from math import inf
+from alphabeta_dots_and_boxes import play_dots_and_boxes
 
 from two_player_games.games.dots_and_boxes import (
-    DotsAndBoxes, DotsAndBoxesState, Player)
+    DotsAndBoxes, DotsAndBoxesState)
 
-from alphabeta import alphabeta
 
 BAR = "=" * 50
 
@@ -18,47 +18,34 @@ def constrain(min=-inf, max=inf, type=float):
     return wrapped_type
 
 
-def dots_and_boxes_evaluate_state(
-        state: DotsAndBoxesState,
-        max_player: Player):
-
-    if state.current_player is max_player:
-        min_player = state.other_player
-    else:
-        min_player = state.current_player
-
-    scores = state.get_scores()
-    return scores[max_player] - scores[min_player]
-
-
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("size", type=constrain(2, type=int),
                         help="gameboard size (at least 2)")
     parser.add_argument("depth", type=constrain(1, type=int),
-                        help="search depth (at least 1)")
+                        help="search depth for player 1(at least 1)")
+    parser.add_argument("depth2", type=constrain(1, type=int),
+                        help="search depth for player 2(at least 1)")
+
     args = parser.parse_args()
 
-    game = DotsAndBoxes(args.size)
+    if not hasattr(args, "depth2"):
+        args.depth2 = args.depth
 
-    print(game)
-    print(BAR)
-    while not game.is_finished():
-        value, move = alphabeta(
-            state=game.state,
-            depth=args.depth,
-            evaluate_state=dots_and_boxes_evaluate_state)
+    state: DotsAndBoxesState = None
+    for state, moving_player, value in play_dots_and_boxes(
+            DotsAndBoxes(args.size), args.depth, args.depth2):
 
-        player = game.get_current_player()
-        game.make_move(move)
+        if moving_player is not None:
+            print(f"{moving_player.char}'s move value: {value}")
+            print(BAR)
 
-        print(f"{player.char}'s move value: {value}")
+        print(state)
         print(BAR)
 
-        print(game)
-        print(BAR)
+        prev_state = state
 
-    winner = game.get_winner()
+    winner = state.get_winner()
     if winner is None:
         print("Draw")
     else:

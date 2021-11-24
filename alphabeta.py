@@ -64,7 +64,7 @@ def alphabeta(
             # max won't consider the current
             # node in his previous move,
             # as he has a better option
-            if alpha[0] <= beta[0]:
-                return beta
+            if alpha[0] >= beta[0]:
+                return alpha
         # return min's best choice
         return beta
