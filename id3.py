@@ -1,3 +1,5 @@
+# by Jakub Ostrzołek
+
 from __future__ import annotations
 from typing import Any, Iterable, Optional, Union
 from math import log
@@ -65,6 +67,9 @@ class ID3Tree:
     def __init__(self, max_depth: int):
         self._max_depth = max_depth
         self._root: Optional[ID3Node] = None
+
+    def get_max_depth(self):
+        return self._max_depth
 
     def _fit(self, X: pd.DataFrame, y: pd.Series, depth: int):
         class_counts = y.value_counts()

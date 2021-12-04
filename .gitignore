@@ -1,1 +1,13 @@
 test*.ipynb
+__pycache__
+plots/*
+!plots/b=5&d=0.jpg
+!plots/b=5&d=1.jpg
+!plots/b=5&d=2.jpg
+!plots/b=5&d=3.jpg
+!plots/b=5&d=4.jpg
+!plots/b=2&d=4.jpg
+!plots/b=3&d=4.jpg
+!plots/b=5&d=4.jpg
+!plots/b=7&d=4.jpg
+!plots/test-best.jpg
