@@ -98,6 +98,8 @@ class ID3Tree:
         self._root = self._fit(X, y, self._max_depth)
 
     def predict(self, X: pd.DataFrame) -> pd.Series:
+        if self._root is None:
+            raise RuntimeError("Cannot predict using unfit model")
         X = X if isinstance(X, pd.DataFrame) else pd.DataFrame(X)
         root = self._root
         return X.apply(

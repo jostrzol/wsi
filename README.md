@@ -20,6 +20,10 @@ Klasa ta ma 2 główne funkcje (zgodne z biblioteką sklearn):
 * `pandas`
 * `matplotlib`
 * `sklearn`
+
+## Trenowanie drzewa
+Aby wytrenować drzewo należy wykonać skrypt `main.py` i postępować zgodnie z instrukcjami (`main.py --help`).  
+Skrypt wygeneruje nowe drzewo, wytrenuje je na podstawie danych ze zbioru danych _iris_, oraz pokaże osiągi drzewa w postaci wybranych metryk i macierzy konfuzji na wykresie.
  
 ## Wykresy
 Aby wygenerować wykresy, należy wykonać skrypt `plot.py`. Za pomocą skryptu można wygenerować:
@@ -51,7 +55,7 @@ Oto przykładowe wyniki:
 * W tym przypadku nie widać zjawiska przeuczenia drzewa dla większych głębokości. Może to być związane z niewielkim wymiarem danych wejściowych (testowanie większych głębokości niż 4 nie ma sensu, bo i tak nie ma wystarczająco parametrów w zbiorze danych wejściowych).
 * Natomiast widać zjawisko przeuczenia i niedouczenia dla skrajnych "rozdzielczości" dyskretyzacji danych. Z wykresów widać, że dla `n_bins = 5` (lub czasami 3, zależy od rozlosowania zbiorów) występują najlepsze metryki, a dla mniejszych i większych wartości tego parametru metryki stają się gorsze.
 
-Wyniki na zbiorze testowym dla drzewa o najlepszych hiperparametrach:
+Wyniki na zbiorze testowym dla drzewa o najlepszych hiperparametrach (dla zbiorów walidacyjnych):
 
 ![wykres](plots/test-best.jpg)
 
