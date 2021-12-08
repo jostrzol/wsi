@@ -26,7 +26,7 @@
 <p>Klasa ta ma 2 główne funkcje (zgodne z biblioteką sklearn):</p>
 <ul>
 <li><code>fit</code> - uczenie drzewa na podstawie danych wejściowych i przypisanych im klas wyjściowych,</li>
-<li><code>predict</code> - przewidywanie klas dla danych wejściowych (wcześniej nauczyonych przez <code>fit</code>).</li>
+<li><code>predict</code> - przewidywanie klas dla danych wejściowych (wcześniej nauczonych przez <code>fit</code>).</li>
 </ul>
 <h2 id="wykorzystane-zewn%C4%99trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
 <ul>
@@ -72,7 +72,7 @@ Skrypt wygeneruje nowe drzewo, wytrenuje je na podstawie danych ze zbioru danych
 <li>W tym przypadku nie widać zjawiska przeuczenia drzewa dla większych głębokości. Może to być związane z niewielkim wymiarem danych wejściowych (testowanie większych głębokości niż 4 nie ma sensu, bo i tak nie ma wystarczająco parametrów w zbiorze danych wejściowych).</li>
 <li>Natomiast widać zjawisko przeuczenia i niedouczenia dla skrajnych &quot;rozdzielczości&quot; dyskretyzacji danych. Z wykresów widać, że dla <code>n_bins = 5</code> (lub czasami 3, zależy od rozlosowania zbiorów) występują najlepsze metryki, a dla mniejszych i większych wartości tego parametru metryki stają się gorsze.</li>
 </ul>
-<p>Wyniki na zbiorze testowym dla drzewa o najlepszych hiperparametrach:</p>
+<p>Wyniki na zbiorze testowym dla drzewa o najlepszych hiperparametrach (dla zbiorów walidacyjnych):</p>
 <p><img src="plots/test-best.jpg" alt="wykres" class="loading" id="image-hash--1805197876" data-src="plots/test-best.jpg"></p>
 <div  ></div>
 </div>

@@ -13,7 +13,7 @@ Klasa implementująca drzewo ma jeden parametr konstruktora:
 
 Klasa ta ma 2 główne funkcje (zgodne z biblioteką sklearn):
 * `fit` - uczenie drzewa na podstawie danych wejściowych i przypisanych im klas wyjściowych,
-* `predict` - przewidywanie klas dla danych wejściowych (wcześniej nauczyonych przez `fit`).
+* `predict` - przewidywanie klas dla danych wejściowych (wcześniej nauczonych przez `fit`).
 
 ## Wykorzystane zewnętrzne biblioteki
 * `numpy`
