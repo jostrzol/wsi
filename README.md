@@ -59,10 +59,10 @@ learning rate | historia | metryki
 * przekroczenie pewnego progu parametru learning rate powoduje, że model może rozbiegać od rozwiązania
 
 ### Overfitting
-rozmiary ukrytych warstw | historia | metryki
--|-|-
-512,256,128,64, batch 1 | ![wykres](plots/overfitting/history,layers=[512,256,128,64],batch_size=1,learn_rate=0.001.png) | ![wykres](plots/overfitting/metrics,layers=[512,256,128,64],batch_size=1,learn_rate=0.001.png)
-1024,512,256,128, batch 128 | ![wykres](plots/overfitting/history,layers=[1024,512,256,128],batch_size=128,learn_rate=0.05.png) | ![wykres](plots/overfitting/metrics,layers=[1024,512,256,128],batch_size=128,learn_rate=0.05.png)
+rozmiary ukrytych warstw</br>/batch size | historia | metryki
+:-:|-|-
+512,256,128,64 </br> /1 | ![wykres](plots/overfitting/history,layers=[512,256,128,64],batch_size=1,learn_rate=0.001.png) | ![wykres](plots/overfitting/metrics,layers=[512,256,128,64],batch_size=1,learn_rate=0.001.png)
+1024,512,256,128 </br> /128 | ![wykres](plots/overfitting/history,layers=[1024,512,256,128],batch_size=128,learn_rate=0.05.png) | ![wykres](plots/overfitting/metrics,layers=[1024,512,256,128],batch_size=128,learn_rate=0.05.png)
 
 * jeśli sieć jest dostatecznie duża i jest trenowana przez dostatecznie dużo epok to dochodzi do przetrenowania tzn. pomimo tego, że osiągi sieci na danych treningowych poprawiają się to jej osiągi na daych testowych są coraz gorsze.
 * sieć zaczyna przetrenowywać szybciej dla większych sieci.
@@ -70,12 +70,12 @@ rozmiary ukrytych warstw | historia | metryki
 * prawdopodobnym powodem niewielkiego przetrenowania w przypadku naszej sieci jest duży rozmiar zbiorów treningowego, walidacyjnego i testowego przy stosunkowo niedużym zróżnicowaniu elementów tego zbioru.
 
 ### Underfitting
-rozmiary ukrytych warstw | historia | metryki
--|-|-
-16,8,4, batch 64 | ![wykres](plots/underfitting/history,layers=[16,8,4],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[16,8,4],batch_size=64,learn_rate=0.001.png)
-32,16,8, batch 64 | ![wykres](plots/underfitting/history,layers=[32,16,8],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[32,16,8],batch_size=64,learn_rate=0.001.png)
-64,32,16, batch 64 | ![wykres](plots/underfitting/history,layers=[64,32,16],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[64,32,16],batch_size=64,learn_rate=0.001.png)
-256,128,4,64, batch 64 | ![wykres](plots/underfitting/history,layers=[256,128,4,64],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[256,128,4,64],batch_size=64,learn_rate=0.001.png)
+rozmiary ukrytych warstw</br>/batch size| historia | metryki
+:-:|-|-
+16,8,4 </br> /64 | ![wykres](plots/underfitting/history,layers=[16,8,4],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[16,8,4],batch_size=64,learn_rate=0.001.png)
+32,16,8 </br> /64 | ![wykres](plots/underfitting/history,layers=[32,16,8],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[32,16,8],batch_size=64,learn_rate=0.001.png)
+64,32,16 </br> /64 | ![wykres](plots/underfitting/history,layers=[64,32,16],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[64,32,16],batch_size=64,learn_rate=0.001.png)
+256,128,4,64 </br> /64 | ![wykres](plots/underfitting/history,layers=[256,128,4,64],batch_size=64,learn_rate=0.001.png) | ![wykres](plots/underfitting/metrics,layers=[256,128,4,64],batch_size=64,learn_rate=0.001.png)
 
 * jeśli sieć nie jest dostatecznie duża lub nie jest trenowana przez dostatecznie dużo epok to dochodzi do sytuacji, w której sieć neuronowa ma osiągi gorsze niż te, które potencjalnie mogłaby osiągnąć.
 * ilość neuronów w warstwie determinuje jak złożona będzie funkcja reprezentowana przez tą warstwę, nie należy więc używać warstw o liczbie neuronów mniejszej niż rozmiar problemu (w naszym przypadku o liczbie neuronów mniejszej niż 10), w żadnej z warstw ukrytych, aby nie doszło do utraty informacji.
