@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css">
+<link rel="stylesheet" href="file:////home/ogurczak/.vscode/extensions/goessner.mdmath-2.7.4/themes/default/style.css">
+
+</head>
+<body class="markdown-body">
+<div  ></div>
+<div style="padding: 2% 5%;">
+<div  ></div>
+<h1 style="text-align: center;">
+<div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
+<div>WSI ćwiczenie 6 - Q-Learning</div>
+</h1>
+<h2 id="opis-c487wiczenia">Opis ćwiczenia</h2>
+<p>Celem ćwiczenia było zaimplementowanie algorytmu Q-Learning.</p>
+<p>Klasa implementująca agenta wykorzystującego algorytm Q-Learning ma następujące parametry konstruktora:</p>
+<ul>
+<li><code>n_states</code> - ilość różnych stanów środowiska</li>
+<li><code>n_actions</code> - ilość możliwych akcji agenta</li>
+<li><code>discount</code> - dyskont</li>
+<li><code>learning_rate</code> - siła uczenia się</li>
+</ul>
+<p>Klasa posiada następujące metody:</p>
+<ul>
+<li><code>decide_epsilon</code> - wybierz ruch dla danego stanu za pomocą metody <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">ϵ</span></span></span></span>-zachłannej</li>
+<li><code>decide_boltzmann</code> - wybierz ruch dla danego stanu za pomocą metody Boltzmanna</li>
+<li><code>update_q</code> - zaktualizuj funkcję wartości-akcji na podstawie nagrody przydzielonej za wykonany ruch</li>
+</ul>
+<h2 id="wykorzystane-zewnc499trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
+<ul>
+<li><code>numpy</code></li>
+<li><code>matplotlib</code></li>
+</ul>
+<h2 id="testowanie-sieci">Testowanie sieci</h2>
+<p>Aby przetestować agenta należy wykonać skrypt <code>main.py</code>, uprzednio zmieniając jego parametry zgodnie z zapotrzebowaniem.<br>
+Skrypt wygeneruje nowego agenta i będzie go uczył przez zadaną ilość epizodów, wyświetlając okresowo jego postępy (średnią nagrodę za ostatni ruch i jej odchylenie standardowe oraz mapę najlepszych ruchów).<br>
+Parametr <code>exploration</code> (podawany do funkcji <code>decide_xxx</code>) będzie zmieniany w czasie przez skrypt w sposób wykładniczy, zbiegający do zadanej wartości z zadaną szybkością. Jego wartość będzie aktualizowana przed każdym nowym epizodem.</p>
+<h2 id="wykresy-i-wnioski">Wykresy i wnioski</h2>
+<p>Wszystkie wykresy ukazują zależność średniej nagrody ostatnich 1000 epizodów od numeru epizodu (liczbę epizodów braną pod uwagę można ustawić parametrem <code>PLOT_LOOKBEHIND</code>).</p>
+<h3 id="exploration-lambda">Exploration lambda</h3>
+<p>Parametr ten wyznacza szybkość wykładniczego zmniejszania wartości <code>exploration</code> między epizodami.</p>
+<table>
+<thead>
+<tr>
+<th><code>EXPLORATION LAMBDA</code></th>
+<th>wykres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,005</td>
+<td><img src="plots/expl/0,00500.png" alt="wykres" class="loading" id="image-hash-1158790330" data-src="plots/expl/0,00500.png"></td>
+</tr>
+<tr>
+<td>0,001</td>
+<td><img src="plots/expl/0,00100.png" alt="wykres" class="loading" id="image-hash-1903742902" data-src="plots/expl/0,00100.png"></td>
+</tr>
+<tr>
+<td>0,0005</td>
+<td><img src="plots/expl/0,00050.png" alt="wykres" class="loading" id="image-hash-1159384976" data-src="plots/expl/0,00050.png"></td>
+</tr>
+<tr>
+<td>0,00025</td>
+<td><img src="plots/expl/0,00025.png" alt="wykres" class="loading" id="image-hash-1078115128" data-src="plots/expl/0,00025.png"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>im większy ten parametr, tym szybciej agent się uczy, a wykres szybciej się wygładza (do pewnego momentu)</li>
+<li>zbyt duża wartość tego parametru sprawia, że agent nie potrafi w wyznaczonej liczbie epizodów dobrze się wytrenować, ponieważ zmiany jego funkcji wartości-akcji stają się zbyt małe, zanim jest w stanie znaleźć optymalną strategię</li>
+<li>parametr ten kontroluje punkt zmiany skupienia agenta - z eksploracji na eksploatację.</li>
+</ul>
+<h3 id="learning-rate">Learning rate</h3>
+<p>Parametr ten wyznacza siłę zmian wprowadzanych do funkcji wartości-akcji przy jej aktualizacji po wykonaniu kroku. W oryginalnym algorytmie Q-Learning może się on również zmieniać w czasie, jedak testy pokazały, że manipulacja samym parametrem <code>exploration</code> jest (w przypadku tego problemu) lepsza i wystarczająca.</p>
+<table>
+<thead>
+<tr>
+<th><code>LEARNING RATE</code></th>
+<th>wykres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,5</td>
+<td><img src="plots/learning_rate/0,500.png" alt="wykres" class="loading" id="image-hash--1260143968" data-src="plots/learning_rate/0,500.png"></td>
+</tr>
+<tr>
+<td>0,3</td>
+<td><img src="plots/learning_rate/0,300.png" alt="wykres" class="loading" id="image-hash-1259815966" data-src="plots/learning_rate/0,300.png"></td>
+</tr>
+<tr>
+<td>0,1</td>
+<td><img src="plots/learning_rate/0,100.png" alt="wykres" class="loading" id="image-hash--515191396" data-src="plots/learning_rate/0,100.png"></td>
+</tr>
+<tr>
+<td>0,05</td>
+<td><img src="plots/learning_rate/0,050.png" alt="wykres" class="loading" id="image-hash--1259549322" data-src="plots/learning_rate/0,050.png"></td>
+</tr>
+<tr>
+<td>0,025</td>
+<td><img src="plots/learning_rate/0,025.png" alt="wykres" class="loading" id="image-hash--1340819170" data-src="plots/learning_rate/0,025.png"></td>
+</tr>
+<tr>
+<td>0,010</td>
+<td><img src="plots/learning_rate/0,010.png" alt="wykres" class="loading" id="image-hash--1374065926" data-src="plots/learning_rate/0,010.png"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>parametr ten nie zmienia drastycznie osiągów agenta</li>
+<li>ustawienie go zbyt nisko przypomina sytuację, gdy parametr <code>EXPLORATION_LAMBDA</code> był ustawiony zbyt wysoko. Wyjaśnienie jest to samo - agent jest 'zmuszany' do zaprzestania eksploracji pomimo, że nie znalazł jeszcze optymalnej strategii</li>
+<li>ustawienie go zbyt wysoko nieznacznie obniża osiągi agenta.</li>
+</ul>
+<h3 id="discount">Discount</h3>
+<p>Parametr ten wyznacza 'dalekowzroczność' agenta. Im większy on jest, tym więcej kroków w przód agent będzie w stanie wziąć pod uwagę.</p>
+<table>
+<thead>
+<tr>
+<th><code>DISCOUNT</code></th>
+<th>wykres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,00</td>
+<td><img src="plots/discount/1,00.png" alt="wykres" class="loading" id="image-hash--462577346" data-src="plots/discount/1,00.png"></td>
+</tr>
+<tr>
+<td>0,95</td>
+<td><img src="plots/discount/0,95.png" alt="wykres" class="loading" id="image-hash--1943107717" data-src="plots/discount/0,95.png"></td>
+</tr>
+<tr>
+<td>0,90</td>
+<td><img src="plots/discount/0,90.png" alt="wykres" class="loading" id="image-hash--1947725322" data-src="plots/discount/0,90.png"></td>
+</tr>
+<tr>
+<td>0,80</td>
+<td><img src="plots/discount/0,80.png" alt="wykres" class="loading" id="image-hash--1976354473" data-src="plots/discount/0,80.png"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>parametr jest czuły na zmiany</li>
+<li>ustawienie go zbyt nisko powoduje dużą nieregularność w osiągach agenta - zmiana w funkcji wartości-akcji w jednym miejscu szybko pociąga za sobą zmiany w poprzedzających je akcjach</li>
+<li>ustawienie go na wartość 1 powoduje, że każda zmiana funkcji wartości-akcji propaguje w nieskończoność, do każdego poprawnego stanu, przez co w pewnym momencie informacje się nazwajem zacierają.</li>
+</ul>
+<div  ></div>
+</div>
+</body>
+</html>
