@@ -41,11 +41,10 @@ class QLearningAgent:
                  action: int,
                  reward: float,
                  is_done: bool):
-        # if not is_done:
-        #     q_max_next_state = self._q[next_state].max()
-        # else:
-        #     q_max_next_state = 0
-        q_max_next_state = self._q[next_state].max()
+        if not is_done:
+            q_max_next_state = self._q[next_state].max()
+        else:
+            q_max_next_state = 0
 
         change = self.learning_rate * (
             reward +
