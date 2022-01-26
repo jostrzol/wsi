@@ -22,7 +22,7 @@ Aby klasyfikator dział dobrze, należy przed użyciem zdyskretyzować dane wej�
 
 ## Testowanie klasyfikatora
 Aby przetestować klasyfikator należy wykonać skrypt `main.py`, uprzednio zmieniając jego parametry zgodnie z zapotrzebowaniem.  
-Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a następnie wyświetli porównanie osiągów dla każdego podziału zbiorów. Na koniec zostaną pokazane osiągi najlepszego przebiegu (tego z najwyższą sumą metryk) dla zbioru testowego.
+Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a następnie wyświetli porównanie osiągów dla każdego podziału zbiorów. Na koniec zostaną pokazane osiągi najlepszego przebiegu (tego z najwyższą sumą metryk) dla zbioru testowego wraz z metrykami obliczonymi na podstawie wszystkich przebiegów (tak, jakby wygenerował je jeden model). Te drugie w dalszej częsci dokumentacji są nazywane dla uproszczenia metrykami średniej wszystkich przebiegów.
 
 ## Wykresy i wnioski
 
@@ -53,7 +53,7 @@ Parametr ten kontroluje na ile równych części dzielony jest zbiór, który zo
 * zbyt duża wartość parametru sprzyja przetrenowaniu widocznym na zbiorze testowym
 * zbyt mała wartość parametru sprzyja niedotrenowaniu widocznym na zbiorze testowym
 * może to być efekt zwiększania rozmiaru zbioru treningowego w porównaniu do zbioru walidacyjnego
-* efektu przetrenowania nie widać na ocenie średniej ze wszystkich przebiegów, ponieważ jest ona obliczana dla coraz mniejszego zbioru walidacyjnego, który coraz gorzej reprezentuje dane
+* efektu przetrenowania nie widać w dużym stopniu na ocenie średniej ze wszystkich przebiegów, ponieważ jest ona obliczana dla coraz mniejszego zbioru walidacyjnego, który coraz gorzej reprezentuje dane
 
 ### Parametr `N_BINS`
 Parametr ten kontroluje ilość przedziałów w dyskretyzacji każdej kolumny danych wejściowych do klasyfikatora.

@@ -17,7 +17,7 @@
 <div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
 <div>WSI ćwiczenie 7 - Modele bayesowskie</div>
 </h1>
-<h2 id="opis-c487wiczenia">Opis ćwiczenia</h2>
+<h2 id="opis-%C4%87wiczenia">Opis ćwiczenia</h2>
 <p>Celem ćwiczenia była implementacja naiwnego klasyfikatora Bayesa.</p>
 <p>Model ma następujące metody (zgodne z biblioteką <code>sklearn</code>):</p>
 <ul>
@@ -25,7 +25,7 @@
 <li><code>predict(X)</code> - przewidywanie wyjść y dla danych wejść X za pomocą modelu</li>
 </ul>
 <p>Aby klasyfikator dział dobrze, należy przed użyciem zdyskretyzować dane wejściowe</p>
-<h2 id="wykorzystane-zewnc499trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
+<h2 id="wykorzystane-zewn%C4%99trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
 <ul>
 <li><code>numpy</code></li>
 <li><code>matplotlib</code></li>
@@ -34,7 +34,7 @@
 </ul>
 <h2 id="testowanie-klasyfikatora">Testowanie klasyfikatora</h2>
 <p>Aby przetestować klasyfikator należy wykonać skrypt <code>main.py</code>, uprzednio zmieniając jego parametry zgodnie z zapotrzebowaniem.<br>
-Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a następnie wyświetli porównanie osiągów dla każdego podziału zbiorów. Na koniec zostaną pokazane osiągi najlepszego przebiegu (tego z najwyższą sumą metryk) dla zbioru testowego.</p>
+Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a następnie wyświetli porównanie osiągów dla każdego podziału zbiorów. Na koniec zostaną pokazane osiągi najlepszego przebiegu (tego z najwyższą sumą metryk) dla zbioru testowego wraz z metrykami obliczonymi na podstawie wszystkich przebiegów (tak, jakby wygenerował je jeden model). Te drugie w dalszej częsci dokumentacji są nazywane dla uproszczenia metrykami średniej wszystkich przebiegów.</p>
 <h2 id="wykresy-i-wnioski">Wykresy i wnioski</h2>
 <h3 id="parametr-testsize">Parametr <code>TEST_SIZE</code></h3>
 <p>Parametr ten kontroluje jaka część zbioru wine jest przeznaczona na zbiór testowy.</p>
@@ -115,6 +115,7 @@ Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a
 <li>zbyt duża wartość parametru sprzyja przetrenowaniu widocznym na zbiorze testowym</li>
 <li>zbyt mała wartość parametru sprzyja niedotrenowaniu widocznym na zbiorze testowym</li>
 <li>może to być efekt zwiększania rozmiaru zbioru treningowego w porównaniu do zbioru walidacyjnego</li>
+<li>efektu przetrenowania nie widać w dużym stopniu na ocenie średniej ze wszystkich przebiegów, ponieważ jest ona obliczana dla coraz mniejszego zbioru walidacyjnego, który coraz gorzej reprezentuje dane</li>
 </ul>
 <h3 id="parametr-nbins">Parametr <code>N_BINS</code></h3>
 <p>Parametr ten kontroluje ilość przedziałów w dyskretyzacji każdej kolumny danych wejściowych do klasyfikatora.</p>
