@@ -14,8 +14,12 @@ N_BINS = 5
 TEST_SIZE = 0.2
 N_SPLITS = 4
 
+SAVE_PLT_VAL = ''
+SAVE_PLT_TEST = ''
+GENERATE_PLOTS = False
 
-if __name__ == "__main__":
+
+def main():
     X, y = load_wine(return_X_y=True, as_frame=True)
 
     discretizer = KBinsDiscretizer(
@@ -35,6 +39,10 @@ if __name__ == "__main__":
     cms_train: List[np.ndarray] = []
     metrics_val: List[Dict[str, float]] = []
     cms_val: List[np.ndarray] = []
+
+    y_val_total = pd.Series([], dtype=y.dtype, name=y.name)
+    y_pred_val_total = pd.Series([], dtype=y.dtype, name=y.name)
+
     for train_index, val_index in kfold.split(X_rest, y_rest):
         X_train = X_rest.iloc[train_index]
         y_train = y_rest.iloc[train_index]
@@ -55,13 +63,20 @@ if __name__ == "__main__":
         metrics_val.append(m_val)
         cms_val.append(cm_val)
 
+        y_val_total = pd.concat([y_val_total, y_val])
+        y_pred_val_total = pd.concat([y_pred_val_total, y_pred_val])
+
     plot_model(
         metrics_val,
         cms_val,
         tuple(f'fold {i+1}' for i in range(len(models))),
         "BayesianClassifier validation sets metrics"
     )
-    plt.show()
+    if SAVE_PLT_VAL:
+        plt.savefig(SAVE_PLT_VAL)
+    else:
+        plt.show()
+    plt.close()
 
     best_i = max(range(len(models)),
                  key=lambda i: sum(metrics_val[i].values()))
@@ -73,10 +88,43 @@ if __name__ == "__main__":
     y_pred_test = model.predict(X_test)
     m_test, cm_test = get_metrics(y_test, y_pred_test)
 
+    m_val_avg, cm_val_avg = get_metrics(y_val_total, y_pred_val_total)
+
     plot_model(
-        (m_train, m_val, m_test),
-        (cm_train, cm_val, cm_test),
-        ("train", "validation", "test"),
-        "BayesianClassifier best fold metrics"
+        (m_train, m_val, m_test, m_val_avg),
+        (cm_train, cm_val, cm_test, cm_val_avg),
+        ("train", "validation", "test", "validation avg"),
+        "BayesianClassifier best fold metrics and validation average"
     )
-    plt.show()
+    if SAVE_PLT_TEST:
+        plt.savefig(SAVE_PLT_TEST)
+    else:
+        plt.show()
+    plt.close()
+
+
+if __name__ == "__main__":
+    if not GENERATE_PLOTS:
+        main()
+        exit(0)
+
+    for test_size in [0.1, 0.2, 0.3, 0.4, 0.5]:
+        TEST_SIZE = test_size
+        SAVE_PLT_VAL = f'plots/test-size/val-{test_size:.2f}.png'.replace(
+            ".", ",", 1)
+        SAVE_PLT_TEST = f'plots/test-size/test-{test_size:.2f}.png'.replace(
+            ".", ",", 1)
+        main()
+    TEST_SIZE = 0.2
+    for n_split in [2, 3, 4, 5]:
+        N_SPLITS = n_split
+        SAVE_PLT_VAL = f'plots/n-splits/val-{n_split}.png'
+        SAVE_PLT_TEST = f'plots/n-splits/test-{n_split}.png'
+        main()
+    N_SPLITS = 4
+    for n_bins in [2, 3, 5, 7, 10]:
+        N_BINS = n_bins
+        SAVE_PLT_VAL = f'plots/n-bins/val-{n_bins}.png'
+        SAVE_PLT_TEST = f'plots/n-bins/test-{n_bins}.png'
+        main()
+    N_BINS = 5

@@ -43,7 +43,7 @@ Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a
 <tr>
 <th><code>TEST_SIZE</code></th>
 <th>porównanie przebiegów krzyżowania</th>
-<th>osiągi najlepszego przebiegu krzyżowania</th>
+<th>osiągi najlepszego przebiegu krzyżowania + śr. wszystkich przebiegów dla zb. wal.</th>
 </tr>
 </thead>
 <tbody>
@@ -85,7 +85,7 @@ Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a
 <tr>
 <th><code>N_SPLITS</code></th>
 <th>porównanie przebiegów krzyżowania</th>
-<th>osiągi najlepszego przebiegu krzyżowania</th>
+<th>osiągi najlepszego przebiegu krzyżowania + śr. wszystkich przebiegów dla zb. wal.</th>
 </tr>
 </thead>
 <tbody>
@@ -109,16 +109,11 @@ Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a
 <td><img src="plots/n-splits/val-5.png" alt="wykres" class="loading" id="image-hash--1644071181" data-src="plots/n-splits/val-5.png"></td>
 <td><img src="plots/n-splits/test-5.png" alt="wykres" class="loading" id="image-hash-5034534" data-src="plots/n-splits/test-5.png"></td>
 </tr>
-<tr>
-<td>6</td>
-<td><img src="plots/n-splits/val-6.png" alt="wykres" class="loading" id="image-hash--1643147660" data-src="plots/n-splits/val-6.png"></td>
-<td><img src="plots/n-splits/test-6.png" alt="wykres" class="loading" id="image-hash-5958055" data-src="plots/n-splits/test-6.png"></td>
-</tr>
 </tbody>
 </table>
 <ul>
-<li>zbyt duża wartość parametru sprzyja przetrenowaniu</li>
-<li>zbyt mała wartość parametru sprzyja niedotrenowaniu</li>
+<li>zbyt duża wartość parametru sprzyja przetrenowaniu widocznym na zbiorze testowym</li>
+<li>zbyt mała wartość parametru sprzyja niedotrenowaniu widocznym na zbiorze testowym</li>
 <li>może to być efekt zwiększania rozmiaru zbioru treningowego w porównaniu do zbioru walidacyjnego</li>
 </ul>
 <h3 id="parametr-nbins">Parametr <code>N_BINS</code></h3>
@@ -128,7 +123,7 @@ Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a
 <tr>
 <th><code>N_BINS</code></th>
 <th>porównanie przebiegów krzyżowania</th>
-<th>osiągi najlepszego przebiegu krzyżowania</th>
+<th>osiągi najlepszego przebiegu krzyżowania + śr. wszystkich przebiegów dla zb. wal.</th>
 </tr>
 </thead>
 <tbody>

@@ -29,7 +29,7 @@ Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a
 ### Parametr `TEST_SIZE`
 Parametr ten kontroluje jaka część zbioru wine jest przeznaczona na zbiór testowy.
 
-`TEST_SIZE` | porównanie przebiegów krzyżowania | osiągi najlepszego przebiegu krzyżowania
+`TEST_SIZE` | porównanie przebiegów krzyżowania | osiągi najlepszego przebiegu krzyżowania + śr. wszystkich przebiegów dla zb. wal.
 -|-|-
 0,1 | ![wykres](plots/test-size/val-0,10.png) | ![wykres](plots/test-size/test-0,10.png)
 0,2 | ![wykres](plots/test-size/val-0,20.png) | ![wykres](plots/test-size/test-0,20.png)
@@ -43,22 +43,22 @@ Parametr ten kontroluje jaka część zbioru wine jest przeznaczona na zbiór te
 ### Parametr `N_SPLITS`
 Parametr ten kontroluje na ile równych części dzielony jest zbiór, który zostaje rozdysponowany na zbiór treningowy i walidacyjny (1 część na walidacyjny, reszta na treningowy).
 
-`N_SPLITS` | porównanie przebiegów krzyżowania | osiągi najlepszego przebiegu krzyżowania
+`N_SPLITS` | porównanie przebiegów krzyżowania | osiągi najlepszego przebiegu krzyżowania + śr. wszystkich przebiegów dla zb. wal.
 -|-|-
 2 | ![wykres](plots/n-splits/val-2.png) | ![wykres](plots/n-splits/test-2.png)
 3 | ![wykres](plots/n-splits/val-3.png) | ![wykres](plots/n-splits/test-3.png)
 4 | ![wykres](plots/n-splits/val-4.png) | ![wykres](plots/n-splits/test-4.png)
 5 | ![wykres](plots/n-splits/val-5.png) | ![wykres](plots/n-splits/test-5.png)
-6 | ![wykres](plots/n-splits/val-6.png) | ![wykres](plots/n-splits/test-6.png)
 
-* zbyt duża wartość parametru sprzyja przetrenowaniu
-* zbyt mała wartość parametru sprzyja niedotrenowaniu
+* zbyt duża wartość parametru sprzyja przetrenowaniu widocznym na zbiorze testowym
+* zbyt mała wartość parametru sprzyja niedotrenowaniu widocznym na zbiorze testowym
 * może to być efekt zwiększania rozmiaru zbioru treningowego w porównaniu do zbioru walidacyjnego
+* efektu przetrenowania nie widać na ocenie średniej ze wszystkich przebiegów, ponieważ jest ona obliczana dla coraz mniejszego zbioru walidacyjnego, który coraz gorzej reprezentuje dane
 
 ### Parametr `N_BINS`
 Parametr ten kontroluje ilość przedziałów w dyskretyzacji każdej kolumny danych wejściowych do klasyfikatora.
 
-`N_BINS` | porównanie przebiegów krzyżowania | osiągi najlepszego przebiegu krzyżowania
+`N_BINS` | porównanie przebiegów krzyżowania | osiągi najlepszego przebiegu krzyżowania + śr. wszystkich przebiegów dla zb. wal.
 -|-|-
 2 | ![wykres](plots/n-bins/val-2.png) | ![wykres](plots/n-bins/test-2.png)
 3 | ![wykres](plots/n-bins/val-3.png) | ![wykres](plots/n-bins/test-3.png)
