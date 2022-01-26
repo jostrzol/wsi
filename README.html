@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css">
+<link rel="stylesheet" href="file:////home/tuco/.vscode-server/extensions/goessner.mdmath-2.7.4/themes/default/style.css">
+
+</head>
+<body class="markdown-body">
+<div  ></div>
+<div style="padding: 2% 5%;">
+<div  ></div>
+<h1 style="text-align: center;">
+<div style="color:grey; font-size: 0.6em;">Jakub Ostrzołek</div>
+<div>WSI ćwiczenie 7 - Modele bayesowskie</div>
+</h1>
+<h2 id="opis-c487wiczenia">Opis ćwiczenia</h2>
+<p>Celem ćwiczenia była implementacja naiwnego klasyfikatora Bayesa.</p>
+<p>Model ma następujące metody (zgodne z biblioteką <code>sklearn</code>):</p>
+<ul>
+<li><code>fit(X, y)</code> - trenowanie modelu dla danych wejść X i spodziewanych wyjść y</li>
+<li><code>predict(X)</code> - przewidywanie wyjść y dla danych wejść X za pomocą modelu</li>
+</ul>
+<p>Aby klasyfikator dział dobrze, należy przed użyciem zdyskretyzować dane wejściowe</p>
+<h2 id="wykorzystane-zewnc499trzne-biblioteki">Wykorzystane zewnętrzne biblioteki</h2>
+<ul>
+<li><code>numpy</code></li>
+<li><code>matplotlib</code></li>
+<li><code>sklearn</code></li>
+<li><code>pandas</code></li>
+</ul>
+<h2 id="testowanie-klasyfikatora">Testowanie klasyfikatora</h2>
+<p>Aby przetestować klasyfikator należy wykonać skrypt <code>main.py</code>, uprzednio zmieniając jego parametry zgodnie z zapotrzebowaniem.<br>
+Skrypt wygeneruje nowy model i wytrenuje go używając n-walidacji krzyżowej, a następnie wyświetli porównanie osiągów dla każdego podziału zbiorów. Na koniec zostaną pokazane osiągi najlepszego przebiegu (tego z najwyższą sumą metryk) dla zbioru testowego.</p>
+<h2 id="wykresy-i-wnioski">Wykresy i wnioski</h2>
+<h3 id="parametr-testsize">Parametr <code>TEST_SIZE</code></h3>
+<p>Parametr ten kontroluje jaka część zbioru wine jest przeznaczona na zbiór testowy.</p>
+<table>
+<thead>
+<tr>
+<th><code>TEST_SIZE</code></th>
+<th>porównanie przebiegów krzyżowania</th>
+<th>osiągi najlepszego przebiegu krzyżowania</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,1</td>
+<td><img src="plots/test-size/val-0,10.png" alt="wykres" class="loading" id="image-hash-2032291323" data-src="plots/test-size/val-0,10.png"></td>
+<td><img src="plots/test-size/test-0,10.png" alt="wykres" class="loading" id="image-hash--1686992168" data-src="plots/test-size/test-0,10.png"></td>
+</tr>
+<tr>
+<td>0,2</td>
+<td><img src="plots/test-size/val-0,20.png" alt="wykres" class="loading" id="image-hash-2060920474" data-src="plots/test-size/val-0,20.png"></td>
+<td><img src="plots/test-size/test-0,20.png" alt="wykres" class="loading" id="image-hash--1658363017" data-src="plots/test-size/test-0,20.png"></td>
+</tr>
+<tr>
+<td>0,3</td>
+<td><img src="plots/test-size/val-0,30.png" alt="wykres" class="loading" id="image-hash-2089549625" data-src="plots/test-size/val-0,30.png"></td>
+<td><img src="plots/test-size/test-0,30.png" alt="wykres" class="loading" id="image-hash--1629733866" data-src="plots/test-size/test-0,30.png"></td>
+</tr>
+<tr>
+<td>0,4</td>
+<td><img src="plots/test-size/val-0,40.png" alt="wykres" class="loading" id="image-hash-2118178776" data-src="plots/test-size/val-0,40.png"></td>
+<td><img src="plots/test-size/test-0,40.png" alt="wykres" class="loading" id="image-hash--1601104715" data-src="plots/test-size/test-0,40.png"></td>
+</tr>
+<tr>
+<td>0,5</td>
+<td><img src="plots/test-size/val-0,50.png" alt="wykres" class="loading" id="image-hash-2146807927" data-src="plots/test-size/val-0,50.png"></td>
+<td><img src="plots/test-size/test-0,50.png" alt="wykres" class="loading" id="image-hash--1572475564" data-src="plots/test-size/test-0,50.png"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>zbyt duża wartość tego parametru zmniejsza osiągi modelu, ponieważ zawęża się liczność jak i różnorodność zbioru treningowego</li>
+<li>zbyt mała wartość może powodować większe wachania oceny modelu, przez co jest ona niepewna. Zjawisko to może występować w obie strony (zbyt optymistyczna lub zbyt pesymistyczna ocena).</li>
+</ul>
+<h3 id="parametr-nsplits">Parametr <code>N_SPLITS</code></h3>
+<p>Parametr ten kontroluje na ile równych części dzielony jest zbiór, który zostaje rozdysponowany na zbiór treningowy i walidacyjny (1 część na walidacyjny, reszta na treningowy).</p>
+<table>
+<thead>
+<tr>
+<th><code>N_SPLITS</code></th>
+<th>porównanie przebiegów krzyżowania</th>
+<th>osiągi najlepszego przebiegu krzyżowania</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td><img src="plots/n-splits/val-2.png" alt="wykres" class="loading" id="image-hash--1646841744" data-src="plots/n-splits/val-2.png"></td>
+<td><img src="plots/n-splits/test-2.png" alt="wykres" class="loading" id="image-hash-2263971" data-src="plots/n-splits/test-2.png"></td>
+</tr>
+<tr>
+<td>3</td>
+<td><img src="plots/n-splits/val-3.png" alt="wykres" class="loading" id="image-hash--1645918223" data-src="plots/n-splits/val-3.png"></td>
+<td><img src="plots/n-splits/test-3.png" alt="wykres" class="loading" id="image-hash-3187492" data-src="plots/n-splits/test-3.png"></td>
+</tr>
+<tr>
+<td>4</td>
+<td><img src="plots/n-splits/val-4.png" alt="wykres" class="loading" id="image-hash--1644994702" data-src="plots/n-splits/val-4.png"></td>
+<td><img src="plots/n-splits/test-4.png" alt="wykres" class="loading" id="image-hash-4111013" data-src="plots/n-splits/test-4.png"></td>
+</tr>
+<tr>
+<td>5</td>
+<td><img src="plots/n-splits/val-5.png" alt="wykres" class="loading" id="image-hash--1644071181" data-src="plots/n-splits/val-5.png"></td>
+<td><img src="plots/n-splits/test-5.png" alt="wykres" class="loading" id="image-hash-5034534" data-src="plots/n-splits/test-5.png"></td>
+</tr>
+<tr>
+<td>6</td>
+<td><img src="plots/n-splits/val-6.png" alt="wykres" class="loading" id="image-hash--1643147660" data-src="plots/n-splits/val-6.png"></td>
+<td><img src="plots/n-splits/test-6.png" alt="wykres" class="loading" id="image-hash-5958055" data-src="plots/n-splits/test-6.png"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>zbyt duża wartość parametru sprzyja przetrenowaniu</li>
+<li>zbyt mała wartość parametru sprzyja niedotrenowaniu</li>
+<li>może to być efekt zwiększania rozmiaru zbioru treningowego w porównaniu do zbioru walidacyjnego</li>
+</ul>
+<h3 id="parametr-nbins">Parametr <code>N_BINS</code></h3>
+<p>Parametr ten kontroluje ilość przedziałów w dyskretyzacji każdej kolumny danych wejściowych do klasyfikatora.</p>
+<table>
+<thead>
+<tr>
+<th><code>N_BINS</code></th>
+<th>porównanie przebiegów krzyżowania</th>
+<th>osiągi najlepszego przebiegu krzyżowania</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td><img src="plots/n-bins/val-2.png" alt="wykres" class="loading" id="image-hash-955477411" data-src="plots/n-bins/val-2.png"></td>
+<td><img src="plots/n-bins/test-2.png" alt="wykres" class="loading" id="image-hash--930220848" data-src="plots/n-bins/test-2.png"></td>
+</tr>
+<tr>
+<td>3</td>
+<td><img src="plots/n-bins/val-3.png" alt="wykres" class="loading" id="image-hash-956400932" data-src="plots/n-bins/val-3.png"></td>
+<td><img src="plots/n-bins/test-3.png" alt="wykres" class="loading" id="image-hash--929297327" data-src="plots/n-bins/test-3.png"></td>
+</tr>
+<tr>
+<td>5</td>
+<td><img src="plots/n-bins/val-5.png" alt="wykres" class="loading" id="image-hash-958247974" data-src="plots/n-bins/val-5.png"></td>
+<td><img src="plots/n-bins/test-5.png" alt="wykres" class="loading" id="image-hash--927450285" data-src="plots/n-bins/test-5.png"></td>
+</tr>
+<tr>
+<td>7</td>
+<td><img src="plots/n-bins/val-7.png" alt="wykres" class="loading" id="image-hash-960095016" data-src="plots/n-bins/val-7.png"></td>
+<td><img src="plots/n-bins/test-7.png" alt="wykres" class="loading" id="image-hash--925603243" data-src="plots/n-bins/test-7.png"></td>
+</tr>
+<tr>
+<td>10</td>
+<td><img src="plots/n-bins/val-10.png" alt="wykres" class="loading" id="image-hash--473717404" data-src="plots/n-bins/val-10.png"></td>
+<td><img src="plots/n-bins/test-10.png" alt="wykres" class="loading" id="image-hash-1199178711" data-src="plots/n-bins/test-10.png"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>zbyt duża wartość parametru sprzyja przetrenowaniu</li>
+<li>zbyt mała wartość parametru sprzyja niedotrenowaniu</li>
+</ul>
+<div  ></div>
+</div>
+</body>
+</html>
